@@ -2,21 +2,19 @@ import ComposableArchitecture
 import SwiftUI
 
 public struct ItemListFeature: Reducer, Sendable {
-    public struct State: Equatable {
-        
-    }
-    
+    public struct State: Equatable {}
+
     public enum Action: Equatable {
         case doneButtonTapped
     }
-    
+
     @Dependency(\.dismiss) var dismiss
-    
+
     public var body: some ReducerOf<Self> {
-        Reduce { state, action in
+        Reduce { _, action in
             switch action {
             case .doneButtonTapped:
-                return .run { _ in
+                .run { _ in
                     await dismiss()
                 }
             }
@@ -26,7 +24,7 @@ public struct ItemListFeature: Reducer, Sendable {
 
 struct ItemList: View {
     let store: StoreOf<ItemListFeature>
-    
+
     var body: some View {
         WithViewStore(store, observe: { $0 }) { viewStore in
             VStack {

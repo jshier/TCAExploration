@@ -15,10 +15,10 @@ final class ItemListFeatureTests: XCTestCase {
                 isDismissCalled.setValue(true)
             }
         }
-        
+
         // When
         await store.send(.doneButtonTapped)
-        
+
         // Then
         XCTAssertTrue(isDismissCalled.value)
     }

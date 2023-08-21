@@ -10,13 +10,13 @@ final class NavigationFeatureTests: XCTestCase {
         let store = TestStore(initialState: .init()) {
             NavigationFeature()
         }
-        
+
         // When
         await store.send(.itemListButtonTapped) {
             $0.path.append(.itemList(.init()))
         }
     }
-    
+
     func testThatItemListDoneButtonDismissesItemList() async throws {
         // Given
         let store = TestStore(
@@ -28,7 +28,7 @@ final class NavigationFeatureTests: XCTestCase {
         ) {
             NavigationFeature()
         }
-        
+
         // When
         await store.send(.path(.element(id: 0, action: .itemList(.doneButtonTapped))))
         await store.receive(.path(.popFrom(id: 0))) {

@@ -10,9 +10,10 @@ public struct NavigationFeature: Reducer {
         }
     }
 
-    public enum Action: Equatable {
+    public enum Action: Equatable, Sendable {
         case itemListButtonTapped
         case path(StackAction<Path.State, Path.Action>)
+        case poppedToRoot
     }
 
     public init() {}
@@ -26,21 +27,30 @@ public struct NavigationFeature: Reducer {
                 return .none
             case .path:
                 return .none
+            case .poppedToRoot:
+                print(action)
+
+                return .none
             }
         }
         .forEach(\.path, action: /Action.path) {
             Path()
+        }
+        .onChange(of: \.path) { _, newValue in
+            Reduce { _, _ in
+                newValue.isEmpty ? .run { send in await send(.poppedToRoot) } : .none
+            }
         }
     }
 
     // Root navigation path.
     // Handles path state and reducer composition.
     public struct Path: Reducer {
-        public enum State: Equatable {
+        public enum State: Equatable, Sendable {
             case itemList(ItemListFeature.State)
         }
 
-        public enum Action: Equatable {
+        public enum Action: Equatable, Sendable {
             case itemList(ItemListFeature.Action)
         }
 
@@ -73,6 +83,7 @@ public struct NavigationView: View {
                 CaseLet(/NavigationFeature.Path.State.itemList,
                         action: NavigationFeature.Path.Action.itemList,
                         then: ItemList.init)
+                    .navigationTitle("Item List")
             }
         }
     }

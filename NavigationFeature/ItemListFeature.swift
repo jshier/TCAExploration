@@ -2,9 +2,9 @@ import ComposableArchitecture
 import SwiftUI
 
 public struct ItemListFeature: Reducer, Sendable {
-    public struct State: Equatable {}
+    public struct State: Equatable, Sendable {}
 
-    public enum Action: Equatable {
+    public enum Action: Equatable, Sendable {
         case doneButtonTapped
     }
 

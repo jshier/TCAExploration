@@ -1,0 +1,28 @@
+# file options
+
+--symlinks ignore
+--exclude Pods
+--swiftversion 5.9
+
+# format options
+
+--closingparen same-line
+--commas inline
+--comments indent
+--decimalgrouping 3,5
+--exponentcase lowercase
+--exponentgrouping disabled
+--fractiongrouping disabled
+--ifdef no-indent
+--importgrouping testable-top
+--nospaceoperators ..<, ...
+--someAny false
+--stripunusedargs closure-only
+--wraparguments preserve
+--wrapcollections before-first
+
+# rules
+
+--enable isEmpty
+--disable andOperator
+--disable wrapMultilineStatementBraces

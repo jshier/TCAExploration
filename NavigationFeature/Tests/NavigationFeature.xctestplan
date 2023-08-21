@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "DF6667F1-CE80-4FED-9D33-D51371823646",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:TCAExploration.xcodeproj",
+        "identifier" : "318B1CDE2A8D67E60075FA3D",
+        "name" : "FirstFeatureTests"
+      }
+    }
+  ],
+  "version" : 1
+}

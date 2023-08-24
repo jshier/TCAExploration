@@ -7,13 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		311619782A91CFF3002090BF /* XCTestDynamicOverlay in Frameworks */ = {isa = PBXBuildFile; productRef = 311619772A91CFF3002090BF /* XCTestDynamicOverlay */; };
 		3116197A2A91D5BE002090BF /* ItemListFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311619792A91D5BE002090BF /* ItemListFeature.swift */; };
-		3116197C2A91D949002090BF /* CasePaths in Frameworks */ = {isa = PBXBuildFile; productRef = 3116197B2A91D949002090BF /* CasePaths */; };
-		3116197E2A91D949002090BF /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 3116197D2A91D949002090BF /* Dependencies */; };
-		311619802A91D949002090BF /* XCTestDynamicOverlay in Frameworks */ = {isa = PBXBuildFile; productRef = 3116197F2A91D949002090BF /* XCTestDynamicOverlay */; };
 		311619832A91DE58002090BF /* ItemListFeatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311619812A91DE48002090BF /* ItemListFeatureTests.swift */; };
-		311619882A91E10F002090BF /* ConcurrencyExtras in Frameworks */ = {isa = PBXBuildFile; productRef = 311619872A91E10F002090BF /* ConcurrencyExtras */; };
+		31329E962A97B22700A3BE69 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31329E942A97AEF000A3BE69 /* Logger.swift */; };
+		31329E982A97B9CF00A3BE69 /* CasePaths in Frameworks */ = {isa = PBXBuildFile; productRef = 31329E972A97B9CF00A3BE69 /* CasePaths */; };
+		31329E9A2A97B9D400A3BE69 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 31329E992A97B9D400A3BE69 /* Dependencies */; };
 		318B1CA62A8D27F20075FA3D /* TCAExplorationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318B1CA52A8D27F20075FA3D /* TCAExplorationApp.swift */; };
 		318B1CA82A8D27F20075FA3D /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318B1CA72A8D27F20075FA3D /* RootView.swift */; };
 		318B1CAA2A8D27F50075FA3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 318B1CA92A8D27F50075FA3D /* Assets.xcassets */; };
@@ -26,10 +24,7 @@
 		318B1CEC2A8D67E60075FA3D /* NavigationFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 318B1CD82A8D67E50075FA3D /* NavigationFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		318B1CF52A8D680C0075FA3D /* NavigationFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318B1CF42A8D680C0075FA3D /* NavigationFeature.swift */; };
 		318B1CF82A8D68280075FA3D /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 318B1CF72A8D68280075FA3D /* ComposableArchitecture */; };
-		318B1CFB2A8D70340075FA3D /* CasePaths in Frameworks */ = {isa = PBXBuildFile; productRef = 318B1CFA2A8D70340075FA3D /* CasePaths */; };
-		31B1FE202A8D7FBF0083B3CA /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 31B1FE1F2A8D7FBF0083B3CA /* ComposableArchitecture */; };
 		31E43C1B2A8DB520000915A1 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E43C1A2A8DB520000915A1 /* Defaults.swift */; };
-		31E43C1E2A8DC01A000915A1 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 31E43C1D2A8DC01A000915A1 /* Dependencies */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,6 +68,7 @@
 /* Begin PBXFileReference section */
 		311619792A91D5BE002090BF /* ItemListFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListFeature.swift; sourceTree = "<group>"; };
 		311619812A91DE48002090BF /* ItemListFeatureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListFeatureTests.swift; sourceTree = "<group>"; };
+		31329E942A97AEF000A3BE69 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
 		318B1CA22A8D27F20075FA3D /* TCAExploration.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TCAExploration.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		318B1CA52A8D27F20075FA3D /* TCAExplorationApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCAExplorationApp.swift; sourceTree = "<group>"; };
 		318B1CA72A8D27F20075FA3D /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -95,11 +91,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				311619782A91CFF3002090BF /* XCTestDynamicOverlay in Frameworks */,
 				318B1CD22A8D2D100075FA3D /* ComposableArchitecture in Frameworks */,
 				318B1CEB2A8D67E60075FA3D /* NavigationFeature.framework in Frameworks */,
-				318B1CFB2A8D70340075FA3D /* CasePaths in Frameworks */,
-				31E43C1E2A8DC01A000915A1 /* Dependencies in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -114,10 +107,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3116197E2A91D949002090BF /* Dependencies in Frameworks */,
+				31329E9A2A97B9D400A3BE69 /* Dependencies in Frameworks */,
 				318B1CF82A8D68280075FA3D /* ComposableArchitecture in Frameworks */,
-				311619802A91D949002090BF /* XCTestDynamicOverlay in Frameworks */,
-				3116197C2A91D949002090BF /* CasePaths in Frameworks */,
+				31329E982A97B9CF00A3BE69 /* CasePaths in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -126,8 +118,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				318B1CE02A8D67E60075FA3D /* NavigationFeature.framework in Frameworks */,
-				311619882A91E10F002090BF /* ConcurrencyExtras in Frameworks */,
-				31B1FE202A8D7FBF0083B3CA /* ComposableArchitecture in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -191,6 +181,7 @@
 			children = (
 				318B1CF42A8D680C0075FA3D /* NavigationFeature.swift */,
 				311619792A91D5BE002090BF /* ItemListFeature.swift */,
+				31329E942A97AEF000A3BE69 /* Logger.swift */,
 				318B1CE52A8D67E60075FA3D /* Tests */,
 			);
 			path = NavigationFeature;
@@ -243,9 +234,6 @@
 			name = TCAExploration;
 			packageProductDependencies = (
 				318B1CD12A8D2D100075FA3D /* ComposableArchitecture */,
-				318B1CFA2A8D70340075FA3D /* CasePaths */,
-				31E43C1D2A8DC01A000915A1 /* Dependencies */,
-				311619772A91CFF3002090BF /* XCTestDynamicOverlay */,
 			);
 			productName = TCAExploration;
 			productReference = 318B1CA22A8D27F20075FA3D /* TCAExploration.app */;
@@ -285,9 +273,8 @@
 			name = NavigationFeature;
 			packageProductDependencies = (
 				318B1CF72A8D68280075FA3D /* ComposableArchitecture */,
-				3116197B2A91D949002090BF /* CasePaths */,
-				3116197D2A91D949002090BF /* Dependencies */,
-				3116197F2A91D949002090BF /* XCTestDynamicOverlay */,
+				31329E972A97B9CF00A3BE69 /* CasePaths */,
+				31329E992A97B9D400A3BE69 /* Dependencies */,
 			);
 			productName = FirstFeature;
 			productReference = 318B1CD82A8D67E50075FA3D /* NavigationFeature.framework */;
@@ -308,8 +295,6 @@
 			);
 			name = NavigationFeatureTests;
 			packageProductDependencies = (
-				31B1FE1F2A8D7FBF0083B3CA /* ComposableArchitecture */,
-				311619872A91E10F002090BF /* ConcurrencyExtras */,
 			);
 			productName = FirstFeatureTests;
 			productReference = 318B1CDF2A8D67E60075FA3D /* NavigationFeatureTests.xctest */;
@@ -356,6 +341,7 @@
 				31E43C1C2A8DC00D000915A1 /* XCRemoteSwiftPackageReference "swift-dependencies" */,
 				311619762A91CFF3002090BF /* XCRemoteSwiftPackageReference "xctest-dynamic-overlay" */,
 				311619842A91E0D6002090BF /* XCRemoteSwiftPackageReference "swift-concurrency-extras" */,
+				3152CAF92A93D0BE0059BB11 /* XCRemoteSwiftPackageReference "swift-collections" */,
 			);
 			productRefGroup = 318B1CA32A8D27F20075FA3D /* Products */;
 			projectDirPath = "";
@@ -426,6 +412,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				318B1CF52A8D680C0075FA3D /* NavigationFeature.swift in Sources */,
+				31329E962A97B22700A3BE69 /* Logger.swift in Sources */,
 				3116197A2A91D5BE002090BF /* ItemListFeature.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -894,6 +881,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		3152CAF92A93D0BE0059BB11 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-collections.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.4;
+			};
+		};
 		318B1CD02A8D2D100075FA3D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/swift-composable-architecture";
@@ -921,30 +916,15 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		311619772A91CFF3002090BF /* XCTestDynamicOverlay */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 311619762A91CFF3002090BF /* XCRemoteSwiftPackageReference "xctest-dynamic-overlay" */;
-			productName = XCTestDynamicOverlay;
-		};
-		3116197B2A91D949002090BF /* CasePaths */ = {
+		31329E972A97B9CF00A3BE69 /* CasePaths */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 318B1CF92A8D70340075FA3D /* XCRemoteSwiftPackageReference "swift-case-paths" */;
 			productName = CasePaths;
 		};
-		3116197D2A91D949002090BF /* Dependencies */ = {
+		31329E992A97B9D400A3BE69 /* Dependencies */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 31E43C1C2A8DC00D000915A1 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
 			productName = Dependencies;
-		};
-		3116197F2A91D949002090BF /* XCTestDynamicOverlay */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 311619762A91CFF3002090BF /* XCRemoteSwiftPackageReference "xctest-dynamic-overlay" */;
-			productName = XCTestDynamicOverlay;
-		};
-		311619872A91E10F002090BF /* ConcurrencyExtras */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 311619842A91E0D6002090BF /* XCRemoteSwiftPackageReference "swift-concurrency-extras" */;
-			productName = ConcurrencyExtras;
 		};
 		318B1CD12A8D2D100075FA3D /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -955,21 +935,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 318B1CD02A8D2D100075FA3D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
-		};
-		318B1CFA2A8D70340075FA3D /* CasePaths */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 318B1CF92A8D70340075FA3D /* XCRemoteSwiftPackageReference "swift-case-paths" */;
-			productName = CasePaths;
-		};
-		31B1FE1F2A8D7FBF0083B3CA /* ComposableArchitecture */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 318B1CD02A8D2D100075FA3D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
-			productName = ComposableArchitecture;
-		};
-		31E43C1D2A8DC01A000915A1 /* Dependencies */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 31E43C1C2A8DC00D000915A1 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
-			productName = Dependencies;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

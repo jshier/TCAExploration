@@ -18,6 +18,8 @@ public struct NavigationFeature: Reducer {
 
     public init() {}
 
+    @Dependency(\.logger) var logger
+
     public var body: some ReducerOf<Self> {
         Reduce { state, action in
             switch action {
@@ -28,7 +30,7 @@ public struct NavigationFeature: Reducer {
             case .path:
                 return .none
             case .poppedToRoot:
-                print(action)
+                logger.log("poppedToRoot")
 
                 return .none
             }
@@ -36,10 +38,8 @@ public struct NavigationFeature: Reducer {
         .forEach(\.path, action: /Action.path) {
             Path()
         }
-        .onChange(of: \.path) { _, newValue in
-            Reduce { _, _ in
-                newValue.isEmpty ? .run { send in await send(.poppedToRoot) } : .none
-            }
+        .onChange(of: \.path.isEmpty, removeDuplicates: ==) { _, isEmpty in
+            isEmpty ? .poppedToRoot : nil
         }
     }
 
@@ -57,6 +57,24 @@ public struct NavigationFeature: Reducer {
         public var body: some ReducerOf<Self> {
             Scope(state: /State.itemList, action: /Action.itemList) {
                 ItemListFeature()
+            }
+        }
+    }
+}
+
+extension Reducer {
+    func onChange<Value>(
+        of toValue: @escaping (State) -> Value,
+        removeDuplicates isDuplicate: @escaping (Value, Value) -> Bool,
+        send: @escaping (_ oldValue: Value, _ newValue: Value) -> Action?
+    ) -> some ReducerOf<Self> where Value: Equatable {
+        onChange(of: toValue, removeDuplicates: isDuplicate) { oldValue, newValue in
+            Reduce { _, _ in
+                if let action = send(oldValue, newValue) {
+                    .send(action)
+                } else {
+                    .none
+                }
             }
         }
     }

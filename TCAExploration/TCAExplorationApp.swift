@@ -11,13 +11,13 @@ import XCTestDynamicOverlay
 
 @main
 struct TCAExplorationApp: App {
-    var body: some Scene {
-        WindowGroup {
-            if _XCTIsTesting {
-                Text("Testing...")
-            } else {
-                RootView(store: Store(initialState: .init()) { RootFeature()._printChanges() })
-            }
-        }
+  var body: some Scene {
+    WindowGroup {
+      if _XCTIsTesting {
+        Text("Testing...")
+      } else {
+        RootView(store: Store(initialState: .init()) { RootFeature()._printChanges() })
+      }
     }
+  }
 }

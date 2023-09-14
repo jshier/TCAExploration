@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,6 +12,12 @@
 		31329E962A97B22700A3BE69 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31329E942A97AEF000A3BE69 /* Logger.swift */; };
 		31329E982A97B9CF00A3BE69 /* CasePaths in Frameworks */ = {isa = PBXBuildFile; productRef = 31329E972A97B9CF00A3BE69 /* CasePaths */; };
 		31329E9A2A97B9D400A3BE69 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 31329E992A97B9D400A3BE69 /* Dependencies */; };
+		3133EADE2AB36BF000A585C6 /* CasePaths in Frameworks */ = {isa = PBXBuildFile; productRef = 3133EADD2AB36BF000A585C6 /* CasePaths */; };
+		3133EAE02AB36BF800A585C6 /* XCTestDynamicOverlay in Frameworks */ = {isa = PBXBuildFile; productRef = 3133EADF2AB36BF800A585C6 /* XCTestDynamicOverlay */; };
+		3133EAE22AB36C0E00A585C6 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 3133EAE12AB36C0E00A585C6 /* Dependencies */; };
+		3133EAE42AB36C2500A585C6 /* ConcurrencyExtras in Frameworks */ = {isa = PBXBuildFile; productRef = 3133EAE32AB36C2500A585C6 /* ConcurrencyExtras */; };
+		3133EAE62AB36C3600A585C6 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 3133EAE52AB36C3600A585C6 /* Dependencies */; };
+		3133EAE82AB36C4900A585C6 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 3133EAE72AB36C4900A585C6 /* ComposableArchitecture */; };
 		318B1CA62A8D27F20075FA3D /* TCAExplorationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318B1CA52A8D27F20075FA3D /* TCAExplorationApp.swift */; };
 		318B1CA82A8D27F20075FA3D /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318B1CA72A8D27F20075FA3D /* RootView.swift */; };
 		318B1CAA2A8D27F50075FA3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 318B1CA92A8D27F50075FA3D /* Assets.xcassets */; };
@@ -91,8 +97,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3133EAE22AB36C0E00A585C6 /* Dependencies in Frameworks */,
 				318B1CD22A8D2D100075FA3D /* ComposableArchitecture in Frameworks */,
 				318B1CEB2A8D67E60075FA3D /* NavigationFeature.framework in Frameworks */,
+				3133EAE02AB36BF800A585C6 /* XCTestDynamicOverlay in Frameworks */,
+				3133EADE2AB36BF000A585C6 /* CasePaths in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,7 +126,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3133EAE62AB36C3600A585C6 /* Dependencies in Frameworks */,
 				318B1CE02A8D67E60075FA3D /* NavigationFeature.framework in Frameworks */,
+				3133EAE82AB36C4900A585C6 /* ComposableArchitecture in Frameworks */,
+				3133EAE42AB36C2500A585C6 /* ConcurrencyExtras in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -133,7 +145,9 @@
 				318B1CA32A8D27F20075FA3D /* Products */,
 				318B1CF62A8D68280075FA3D /* Frameworks */,
 			);
+			indentWidth = 2;
 			sourceTree = "<group>";
+			tabWidth = 2;
 		};
 		318B1CA32A8D27F20075FA3D /* Products */ = {
 			isa = PBXGroup;
@@ -234,6 +248,9 @@
 			name = TCAExploration;
 			packageProductDependencies = (
 				318B1CD12A8D2D100075FA3D /* ComposableArchitecture */,
+				3133EADD2AB36BF000A585C6 /* CasePaths */,
+				3133EADF2AB36BF800A585C6 /* XCTestDynamicOverlay */,
+				3133EAE12AB36C0E00A585C6 /* Dependencies */,
 			);
 			productName = TCAExploration;
 			productReference = 318B1CA22A8D27F20075FA3D /* TCAExploration.app */;
@@ -295,6 +312,9 @@
 			);
 			name = NavigationFeatureTests;
 			packageProductDependencies = (
+				3133EAE32AB36C2500A585C6 /* ConcurrencyExtras */,
+				3133EAE52AB36C3600A585C6 /* Dependencies */,
+				3133EAE72AB36C4900A585C6 /* ComposableArchitecture */,
 			);
 			productName = FirstFeatureTests;
 			productReference = 318B1CDF2A8D67E60075FA3D /* NavigationFeatureTests.xctest */;
@@ -327,7 +347,7 @@
 				};
 			};
 			buildConfigurationList = 318B1C9D2A8D27F20075FA3D /* Build configuration list for PBXProject "TCAExploration" */;
-			compatibilityVersion = "Xcode 14.0";
+			compatibilityVersion = "Xcode 15.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -925,6 +945,36 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 31E43C1C2A8DC00D000915A1 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
 			productName = Dependencies;
+		};
+		3133EADD2AB36BF000A585C6 /* CasePaths */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 318B1CF92A8D70340075FA3D /* XCRemoteSwiftPackageReference "swift-case-paths" */;
+			productName = CasePaths;
+		};
+		3133EADF2AB36BF800A585C6 /* XCTestDynamicOverlay */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 311619762A91CFF3002090BF /* XCRemoteSwiftPackageReference "xctest-dynamic-overlay" */;
+			productName = XCTestDynamicOverlay;
+		};
+		3133EAE12AB36C0E00A585C6 /* Dependencies */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 31E43C1C2A8DC00D000915A1 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
+			productName = Dependencies;
+		};
+		3133EAE32AB36C2500A585C6 /* ConcurrencyExtras */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 311619842A91E0D6002090BF /* XCRemoteSwiftPackageReference "swift-concurrency-extras" */;
+			productName = ConcurrencyExtras;
+		};
+		3133EAE52AB36C3600A585C6 /* Dependencies */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 31E43C1C2A8DC00D000915A1 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
+			productName = Dependencies;
+		};
+		3133EAE72AB36C4900A585C6 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 318B1CD02A8D2D100075FA3D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
 		};
 		318B1CD12A8D2D100075FA3D /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;

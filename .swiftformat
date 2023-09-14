@@ -3,6 +3,7 @@
 --symlinks ignore
 --exclude Pods
 --swiftversion 5.9
+--indent 2
 
 # format options
 

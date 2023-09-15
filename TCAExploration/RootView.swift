@@ -23,7 +23,10 @@ struct RootFeature: Reducer {
 
   enum Action: BindableAction, Equatable {
     case binding(BindingAction<State>)
+    case goToNavigationTabButtonTapped
+    case goToNewItemButtonTapped
     case navigationFeature(NavigationFeature.Action)
+    case saveCurrentTab(Tab)
   }
 
   enum Tab: String {
@@ -43,13 +46,29 @@ struct RootFeature: Reducer {
       switch action {
       case .navigationFeature:
         return .none
-      case .binding(\.$currentTab):
-        defaults.selectedRootTab = state.currentTab
-
-        return .none
       case .binding:
         return .none
+      case .goToNavigationTabButtonTapped:
+        state.currentTab = .navigation
+
+        return .none
+      case .goToNewItemButtonTapped:
+        state.currentTab = .navigation
+        state.navigationFeature = NavigationFeature.State(path: StackState([
+          NavigationFeature.Path.State.itemList(
+            .init(addItem: .init(focus: .title))
+          )
+        ]))
+
+        return .none
+      case let .saveCurrentTab(tab):
+        defaults.selectedRootTab = tab
+
+        return .none
       }
+    }
+    .onChange(of: \.currentTab, removeDuplicates: ==) { _, newValue in
+      .saveCurrentTab(newValue)
     }
   }
 }
@@ -74,14 +93,19 @@ struct RootView: View {
             icon: { Image(systemName: "square.on.square.intersection.dashed") }
           ) }
           .tag(RootFeature.Tab.navigation)
+
         VStack {
           Text("Second Tab")
-          Button("Go To First Tab") {
-            viewStore.$currentTab.wrappedValue = .navigation
+          Button("Go To Navigation Tab") {
+            viewStore.send(.goToNavigationTabButtonTapped)
+          }
+          Button("Got To New Item") {
+            viewStore.send(.goToNewItemButtonTapped)
           }
         }
         .tabItem { Text("Second") }
         .tag(RootFeature.Tab.second)
+
         Text("Third Tab")
           .tabItem { Text("Third") }
           .tag(RootFeature.Tab.third)

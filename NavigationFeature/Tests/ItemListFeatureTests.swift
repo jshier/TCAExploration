@@ -22,19 +22,19 @@ final class ItemListFeatureTests: XCTestCase {
     // Then
     XCTAssertTrue(isDismissCalled.value)
   }
-  
-  func testThatAddButtonAddsItem() async throws {
+
+  func testThatAddButtonPresentsAddSheet() async throws {
     // Given
     let store = TestStore(initialState: .init()) {
       ItemListFeature()
     } withDependencies: { dependencies in
       dependencies.uuid = .incrementing
-      dependencies.withRandomNumberGenerator = WithRandomNumberGenerator(LCRNG(seed: 0))
     }
-    
+
     // When, Then
+    // When user taps Add button, addItem is populated, focus is .title.
     await store.send(.addButtonTapped) { state in
-      state.items.append(.init(id: UUID(0), title: "1"))
+      state.addItem = .init(focus: .title)
     }
   }
 }
@@ -48,7 +48,7 @@ struct LCRNG: RandomNumberGenerator {
   }
 
   mutating func next() -> UInt64 {
-    self.seed = 2_862_933_555_777_941_757 &* self.seed &+ 3_037_000_493
-    return self.seed
+    seed = 2_862_933_555_777_941_757 &* seed &+ 3_037_000_493
+    return seed
   }
 }

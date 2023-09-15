@@ -59,12 +59,6 @@ private enum DefaultsKey: DependencyKey {
 
     return defaults
   }()
-
-  static var testValue = {
-    var defaults = Defaults()
-
-    return defaults
-  }()
 }
 
 extension DependencyValues {

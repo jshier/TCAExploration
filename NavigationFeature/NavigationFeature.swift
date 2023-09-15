@@ -62,7 +62,7 @@ public struct NavigationFeature: Reducer {
   }
 }
 
-extension Reducer {
+public extension Reducer {
   func onChange<Value>(
     of toValue: @escaping (State) -> Value,
     removeDuplicates isDuplicate: @escaping (Value, Value) -> Bool,

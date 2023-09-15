@@ -18,6 +18,11 @@
 		3133EAE42AB36C2500A585C6 /* ConcurrencyExtras in Frameworks */ = {isa = PBXBuildFile; productRef = 3133EAE32AB36C2500A585C6 /* ConcurrencyExtras */; };
 		3133EAE62AB36C3600A585C6 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 3133EAE52AB36C3600A585C6 /* Dependencies */; };
 		3133EAE82AB36C4900A585C6 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 3133EAE72AB36C4900A585C6 /* ComposableArchitecture */; };
+		3133EAEA2AB4C06900A585C6 /* NewItemFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3133EAE92AB4C06900A585C6 /* NewItemFeature.swift */; };
+		3133EAED2AB4CDB400A585C6 /* SwiftUINavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 3133EAEC2AB4CDB400A585C6 /* SwiftUINavigation */; };
+		3133EAEF2AB4F62700A585C6 /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 3133EAEE2AB4F62700A585C6 /* ComposableArchitecture */; };
+		3133EAF12AB4F79200A585C6 /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 3133EAF02AB4F79200A585C6 /* Dependencies */; };
+		3133EAF32AB4F84000A585C6 /* ConcurrencyExtras in Frameworks */ = {isa = PBXBuildFile; productRef = 3133EAF22AB4F84000A585C6 /* ConcurrencyExtras */; };
 		318B1CA62A8D27F20075FA3D /* TCAExplorationApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318B1CA52A8D27F20075FA3D /* TCAExplorationApp.swift */; };
 		318B1CA82A8D27F20075FA3D /* RootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318B1CA72A8D27F20075FA3D /* RootView.swift */; };
 		318B1CAA2A8D27F50075FA3D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 318B1CA92A8D27F50075FA3D /* Assets.xcassets */; };
@@ -75,6 +80,7 @@
 		311619792A91D5BE002090BF /* ItemListFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListFeature.swift; sourceTree = "<group>"; };
 		311619812A91DE48002090BF /* ItemListFeatureTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemListFeatureTests.swift; sourceTree = "<group>"; };
 		31329E942A97AEF000A3BE69 /* Logger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Logger.swift; sourceTree = "<group>"; };
+		3133EAE92AB4C06900A585C6 /* NewItemFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewItemFeature.swift; sourceTree = "<group>"; };
 		318B1CA22A8D27F20075FA3D /* TCAExploration.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TCAExploration.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		318B1CA52A8D27F20075FA3D /* TCAExplorationApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TCAExplorationApp.swift; sourceTree = "<group>"; };
 		318B1CA72A8D27F20075FA3D /* RootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RootView.swift; sourceTree = "<group>"; };
@@ -109,6 +115,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3133EAEF2AB4F62700A585C6 /* ComposableArchitecture in Frameworks */,
+				3133EAF32AB4F84000A585C6 /* ConcurrencyExtras in Frameworks */,
+				3133EAF12AB4F79200A585C6 /* Dependencies in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -116,6 +125,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3133EAED2AB4CDB400A585C6 /* SwiftUINavigation in Frameworks */,
 				31329E9A2A97B9D400A3BE69 /* Dependencies in Frameworks */,
 				318B1CF82A8D68280075FA3D /* ComposableArchitecture in Frameworks */,
 				31329E982A97B9CF00A3BE69 /* CasePaths in Frameworks */,
@@ -195,6 +205,7 @@
 			children = (
 				318B1CF42A8D680C0075FA3D /* NavigationFeature.swift */,
 				311619792A91D5BE002090BF /* ItemListFeature.swift */,
+				3133EAE92AB4C06900A585C6 /* NewItemFeature.swift */,
 				31329E942A97AEF000A3BE69 /* Logger.swift */,
 				318B1CE52A8D67E60075FA3D /* Tests */,
 			);
@@ -270,6 +281,11 @@
 				318B1CB52A8D27F50075FA3D /* PBXTargetDependency */,
 			);
 			name = TCAExplorationTests;
+			packageProductDependencies = (
+				3133EAEE2AB4F62700A585C6 /* ComposableArchitecture */,
+				3133EAF02AB4F79200A585C6 /* Dependencies */,
+				3133EAF22AB4F84000A585C6 /* ConcurrencyExtras */,
+			);
 			productName = TCAExplorationTests;
 			productReference = 318B1CB32A8D27F50075FA3D /* TCAExplorationTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -292,6 +308,7 @@
 				318B1CF72A8D68280075FA3D /* ComposableArchitecture */,
 				31329E972A97B9CF00A3BE69 /* CasePaths */,
 				31329E992A97B9D400A3BE69 /* Dependencies */,
+				3133EAEC2AB4CDB400A585C6 /* SwiftUINavigation */,
 			);
 			productName = FirstFeature;
 			productReference = 318B1CD82A8D67E50075FA3D /* NavigationFeature.framework */;
@@ -362,6 +379,7 @@
 				311619762A91CFF3002090BF /* XCRemoteSwiftPackageReference "xctest-dynamic-overlay" */,
 				311619842A91E0D6002090BF /* XCRemoteSwiftPackageReference "swift-concurrency-extras" */,
 				3152CAF92A93D0BE0059BB11 /* XCRemoteSwiftPackageReference "swift-collections" */,
+				3133EAEB2AB4CDA400A585C6 /* XCRemoteSwiftPackageReference "swiftui-navigation" */,
 			);
 			productRefGroup = 318B1CA32A8D27F20075FA3D /* Products */;
 			projectDirPath = "";
@@ -431,6 +449,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3133EAEA2AB4C06900A585C6 /* NewItemFeature.swift in Sources */,
 				318B1CF52A8D680C0075FA3D /* NavigationFeature.swift in Sources */,
 				31329E962A97B22700A3BE69 /* Logger.swift in Sources */,
 				3116197A2A91D5BE002090BF /* ItemListFeature.swift in Sources */,
@@ -901,6 +920,14 @@
 				minimumVersion = 1.0.0;
 			};
 		};
+		3133EAEB2AB4CDA400A585C6 /* XCRemoteSwiftPackageReference "swiftui-navigation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/pointfreeco/swiftui-navigation";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.2;
+			};
+		};
 		3152CAF92A93D0BE0059BB11 /* XCRemoteSwiftPackageReference "swift-collections" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/apple/swift-collections.git";
@@ -975,6 +1002,26 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 318B1CD02A8D2D100075FA3D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
 			productName = ComposableArchitecture;
+		};
+		3133EAEC2AB4CDB400A585C6 /* SwiftUINavigation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3133EAEB2AB4CDA400A585C6 /* XCRemoteSwiftPackageReference "swiftui-navigation" */;
+			productName = SwiftUINavigation;
+		};
+		3133EAEE2AB4F62700A585C6 /* ComposableArchitecture */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 318B1CD02A8D2D100075FA3D /* XCRemoteSwiftPackageReference "swift-composable-architecture" */;
+			productName = ComposableArchitecture;
+		};
+		3133EAF02AB4F79200A585C6 /* Dependencies */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 31E43C1C2A8DC00D000915A1 /* XCRemoteSwiftPackageReference "swift-dependencies" */;
+			productName = Dependencies;
+		};
+		3133EAF22AB4F84000A585C6 /* ConcurrencyExtras */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 311619842A91E0D6002090BF /* XCRemoteSwiftPackageReference "swift-concurrency-extras" */;
+			productName = ConcurrencyExtras;
 		};
 		318B1CD12A8D2D100075FA3D /* ComposableArchitecture */ = {
 			isa = XCSwiftPackageProductDependency;

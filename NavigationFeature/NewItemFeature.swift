@@ -4,21 +4,23 @@ import SwiftUI
 public struct NewItemFeature: Reducer {
   public struct State: Equatable, Sendable {
     @BindingState var title: String
+    @BindingState var description: String
     @BindingState var focus: Field?
 
-    var isValid: Bool { !title.isEmpty }
+    var isValid: Bool { !title.isEmpty && !description.isEmpty }
     var newItem: Item? {
       if isValid {
         @Dependency(\.uuid) var uuid
 
-        return Item(id: uuid(), title: title)
+        return Item(id: uuid(), title: title, description: description)
       } else {
         return nil
       }
     }
 
-    public init(title: String = "", focus: Field? = nil) {
+    public init(title: String = "", description: String = "", focus: Field? = nil) {
       self.title = title
+      self.description = description
       self.focus = focus
     }
   }
@@ -35,7 +37,7 @@ public struct NewItemFeature: Reducer {
   }
 
   public enum Field: Equatable, Sendable {
-    case title
+    case title, description
   }
 
   public var body: some ReducerOf<Self> {
@@ -68,19 +70,22 @@ struct NewItemView: View {
   var body: some View {
     WithViewStore(store, observe: { $0 }) { viewStore in
       VStack {
-        Form {
-          TextField("Title", text: viewStore.$title)
-            .focused($focus, equals: .title)
-        }
+        TextField("Title", text: viewStore.$title)
+          .focused($focus, equals: .title)
+        TextField("Description", text: viewStore.$description)
+          .focused($focus, equals: .description)
 
         Button("Add") {
           viewStore.send(.addButtonTapped)
         }
         .disabled(!viewStore.isValid)
+
+        Spacer()
+          .gesture(TapGesture().onEnded {
+            viewStore.send(.bodyTapped)
+          })
       }
-      .gesture(TapGesture().onEnded {
-        viewStore.send(.bodyTapped)
-      })
+      .padding()
       .bind(viewStore.$focus, to: $focus)
     }
   }

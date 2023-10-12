@@ -15,10 +15,11 @@ import XCTest
 final class TCAExplorationTests: XCTestCase {
   func testSecondTabGoToNewItemButton() async throws {
     // Given
+    let defaults = Defaults.inMemory(selectedTab: .second)
     let store = TestStore(initialState: .init(currentTab: .second)) {
       RootFeature()
     } withDependencies: { dependencies in
-      dependencies.defaults = .inMemory(selectedTab: .second)
+      dependencies.defaults = defaults
     }
 
     // When: user taps the Go To New Item button.
@@ -28,12 +29,14 @@ final class TCAExplorationTests: XCTestCase {
       // Sets the navigation state to the addItem screen with .title focused.
       state.navigationFeature = NavigationFeature.State(path: StackState([
         NavigationFeature.Path.State.itemList(
-          .init(addItem: .init(focus: .title))
+          .init(addItem: .init(focus: .description))
         )
       ]))
     }
     // Then: store saves the current tab to Defaults.
     await store.receive(.saveCurrentTab(.navigation))
+
+    XCTAssertEqual(defaults.selectedRootTab, .navigation)
   }
 }
 

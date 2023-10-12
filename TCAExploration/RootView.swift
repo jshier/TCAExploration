@@ -30,7 +30,7 @@ struct RootFeature: Reducer {
   }
 
   enum Tab: String {
-    case navigation, second, third
+    case navigation, second, remote
   }
 
   @Dependency(\.defaults) var defaults
@@ -56,7 +56,7 @@ struct RootFeature: Reducer {
         state.currentTab = .navigation
         state.navigationFeature = NavigationFeature.State(path: StackState([
           NavigationFeature.Path.State.itemList(
-            .init(addItem: .init(focus: .title))
+            .init(addItem: .init(focus: .description))
           )
         ]))
 
@@ -106,9 +106,14 @@ struct RootView: View {
         .tabItem { Text("Second") }
         .tag(RootFeature.Tab.second)
 
-        Text("Third Tab")
-          .tabItem { Text("Third") }
-          .tag(RootFeature.Tab.third)
+        Text("Remote Tab")
+          .tabItem {
+            Label(
+              title: { Text("Remote") },
+              icon: { Image(systemName: "av.remote") }
+            )
+          }
+          .tag(RootFeature.Tab.remote)
       }
     }
   }

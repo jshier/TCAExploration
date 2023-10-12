@@ -76,7 +76,11 @@ struct ItemList: View {
           }
         }
         .sheet(store: store.scope(state: \.$addItem, action: { .addItem($0) })) { store in
-          NewItemView(store: store)
+          NavigationStack {
+            NewItemView(store: store)
+              .navigationTitle("Add Item")
+              .navigationBarTitleDisplayMode(.inline)
+          }
         }
     }
   }
@@ -103,10 +107,12 @@ struct ItemList: View {
 public struct Item: Sendable, Equatable, Identifiable {
   public var id: UUID
   public var title: String
+  public var description: String
 
-  public init(id: UUID, title: String) {
+  public init(id: UUID, title: String, description: String) {
     self.id = id
     self.title = title
+    self.description = description
   }
 }
 

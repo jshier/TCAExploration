@@ -1,34 +1,70 @@
-//
-//  RemoteFeatureTests.swift
-//  RemoteFeatureTests
-//
-//  Created by Jon Shier on 10/12/23.
-//
-
 @testable import RemoteFeature
+
+import ComposableArchitecture
 import XCTest
 
-class RemoteFeatureTests: XCTestCase {
-  override func setUpWithError() throws {
-    // Put setup code here. This method is called before the invocation of each test method in the class.
-  }
-
-  override func tearDownWithError() throws {
-    // Put teardown code here. This method is called after the invocation of each test method in the class.
-  }
-
-  func testExample() throws {
-    // This is an example of a functional test case.
-    // Use XCTAssert and related functions to verify your tests produce the correct results.
-    // Any test you write for XCTest can be annotated as throws and async.
-    // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-    // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
-  }
-
-  func testPerformanceExample() throws {
-    // This is an example of a performance test case.
-    measure {
-      // Put the code you want to measure the time of here.
+@MainActor
+final class RemoteFeatureTests: XCTestCase {
+  func testThatListenToggleStartsEffects() async throws {
+    // Given
+    let clock = TestClock()
+    let store = TestStore(initialState: RemoteFeature.State(currentTemperature: "72",
+                                                            currentMileage: "1234",
+                                                            isCommandInProgress: false,
+                                                            isCharging: false)) {
+      RemoteFeature()
+    } withDependencies: { dependencies in
+      dependencies.remoteNetworking = RemoteNetworking {
+        AsyncStream(events: .value(.none), .delay(.seconds(1)), .value(.inFlight), .delay(.seconds(1)))
+      } vehicleStatus: {
+        AsyncStream(events: .value(.init(doors: .open, windows: .closed, odometer: 1234)), .delay(.seconds(1)))
+      } electricStatus: {
+        AsyncStream(events: .value(.init(plugin: .unplugged)), .delay(.seconds(1)))
+      } hvacSettings: {
+        AsyncStream(events: .value(.init(temperature: 72, isDefrostOn: false)), .delay(.seconds(1)))
+      }
+      dependencies.continuousClock = clock
     }
+    store.useMainSerialExecutor = true
+
+    await store.send(.toggleListeningButtonTapped) {
+      $0.isListening = true
+    }
+
+    await store.receive(.receiveCommandStatus(.none))
+    await store.receive(.receiveHVACSettings(.init(temperature: 72, isDefrostOn: false))) { state in
+      state.currentTemperature = "72°F"
+    }
+
+    await store.receive(.receiveVehicleStatus(.init(doors: .open, windows: .closed, odometer: 1234))) {
+      $0.currentMileage = "1234 mi"
+    }
+    await store.receive(.receiveElectricStatus(.init(plugin: .unplugged)))
+
+    await clock.advance(by: .seconds(1))
+
+    await store.receive(.receiveCommandStatus(.inFlight)) {
+      $0.isCommandInProgress = true
+    }
+    await store.receive(.receiveHVACSettings(.init(temperature: 72, isDefrostOn: false)))
+
+    await store.receive(.receiveVehicleStatus(.init(doors: .open, windows: .closed, odometer: 1234)))
+    await store.receive(.receiveElectricStatus(.init(plugin: .unplugged)))
+
+    await clock.advance(by: .seconds(1))
+
+    await store.receive(.receiveCommandStatus(.none)) {
+      $0.isCommandInProgress = false
+    }
+    await store.receive(.receiveHVACSettings(.init(temperature: 72, isDefrostOn: false)))
+
+    await store.receive(.receiveVehicleStatus(.init(doors: .open, windows: .closed, odometer: 1234)))
+    await store.receive(.receiveElectricStatus(.init(plugin: .unplugged)))
+
+    await store.send(.toggleListeningButtonTapped) {
+      $0.isListening = false
+    }
+
+    await store.finish()
   }
 }

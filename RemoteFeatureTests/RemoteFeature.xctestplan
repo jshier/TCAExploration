@@ -1,0 +1,24 @@
+{
+  "configurations" : [
+    {
+      "id" : "2E54EF40-65EC-4612-BEF0-B61AE17F4B66",
+      "name" : "Test Scheme Action",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:TCAExploration.xcodeproj",
+        "identifier" : "317DA2492AD877C400C15640",
+        "name" : "RemoteFeatureTests"
+      }
+    }
+  ],
+  "version" : 1
+}

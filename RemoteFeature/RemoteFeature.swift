@@ -2,7 +2,7 @@ import ComposableArchitecture
 import SwiftUI
 
 public struct RemoteFeature: Reducer {
-  public struct State: Equatable {
+  public struct State: Equatable, Sendable {
     var currentTemperature: String
     var currentMileage: String
     var isCommandInProgress: Bool
@@ -76,25 +76,25 @@ public struct RemoteFeature: Reducer {
         for await value in vehicleStatus() {
           await send(.receiveVehicleStatus(value))
         }
-        print("stopped waiting for vehicle status")
+//        print("stopped waiting for vehicle status")
       },
       .run { [electricStatus = remoteNetworking.electricStatus] send in
         for await value in electricStatus() {
           await send(.receiveElectricStatus(value))
         }
-        print("stopped waiting for electric status")
+//        print("stopped waiting for electric status")
       },
       .run { [hvacSettings = remoteNetworking.hvacSettings] send in
         for await value in hvacSettings() {
           await send(.receiveHVACSettings(value))
         }
-        print("stopped waiting for HVAC settings")
+//        print("stopped waiting for HVAC settings")
       },
       .run { [commandStatus = remoteNetworking.commandStatus] send in
         for await value in commandStatus() {
           await send(.receiveCommandStatus(value))
         }
-        print("stopped waiting for command status")
+//        print("stopped waiting for command status")
       }
     )
     .cancellable(id: CancellableAction.statusListeners, cancelInFlight: true)

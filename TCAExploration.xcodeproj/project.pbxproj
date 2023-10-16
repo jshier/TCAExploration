@@ -44,11 +44,13 @@
 		318B1CEC2A8D67E60075FA3D /* NavigationFeature.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 318B1CD82A8D67E50075FA3D /* NavigationFeature.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		318B1CF52A8D680C0075FA3D /* NavigationFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 318B1CF42A8D680C0075FA3D /* NavigationFeature.swift */; };
 		318B1CF82A8D68280075FA3D /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 318B1CF72A8D68280075FA3D /* ComposableArchitecture */; };
+		319759C42ADD819000669F1E /* ComposableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 319759C32ADD819000669F1E /* ComposableViewController.swift */; };
 		31CDB4772AD9BEFF008001ED /* Clocks in Frameworks */ = {isa = PBXBuildFile; productRef = 31CDB4762AD9BEFF008001ED /* Clocks */; };
 		31CDB4792AD9BF37008001ED /* Dependencies in Frameworks */ = {isa = PBXBuildFile; productRef = 31CDB4782AD9BF37008001ED /* Dependencies */; };
 		31CDB47B2AD9BF44008001ED /* Clocks in Frameworks */ = {isa = PBXBuildFile; productRef = 31CDB47A2AD9BF44008001ED /* Clocks */; };
 		31CDB47D2AD9BF56008001ED /* ComposableArchitecture in Frameworks */ = {isa = PBXBuildFile; productRef = 31CDB47C2AD9BF56008001ED /* ComposableArchitecture */; };
 		31E43C1B2A8DB520000915A1 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31E43C1A2A8DB520000915A1 /* Defaults.swift */; };
+		31EDAFF12ADD8DC40083DE70 /* Combine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31EDAFF02ADD8DC40083DE70 /* Combine.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -135,8 +137,10 @@
 		318B1CF42A8D680C0075FA3D /* NavigationFeature.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationFeature.swift; sourceTree = "<group>"; };
 		318B1CFC2A8D75070075FA3D /* NavigationFeature.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = NavigationFeature.xctestplan; sourceTree = "<group>"; };
 		318B1CFD2A8D7A010075FA3D /* TCAExploration.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = TCAExploration.xctestplan; sourceTree = "<group>"; };
+		319759C32ADD819000669F1E /* ComposableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ComposableViewController.swift; sourceTree = "<group>"; };
 		31AA47DA2AD9BE1700481545 /* RemoteFeature.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = RemoteFeature.xctestplan; sourceTree = "<group>"; };
 		31E43C1A2A8DB520000915A1 /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
+		31EDAFF02ADD8DC40083DE70 /* Combine.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Combine.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS17.0.sdk/System/Library/Frameworks/Combine.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -144,6 +148,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				31EDAFF12ADD8DC40083DE70 /* Combine.framework in Frameworks */,
 				317DA2682AD8948D00C15640 /* Dependencies in Frameworks */,
 				31CDB4772AD9BEFF008001ED /* Clocks in Frameworks */,
 				317DA2662AD8948800C15640 /* ComposableArchitecture in Frameworks */,
@@ -215,6 +220,7 @@
 			children = (
 				317DA25E2AD8781E00C15640 /* RemoteFeature.swift */,
 				317DA2602AD8794900C15640 /* RemoteNetworking.swift */,
+				319759C32ADD819000669F1E /* ComposableViewController.swift */,
 			);
 			path = RemoteFeature;
 			sourceTree = "<group>";
@@ -311,6 +317,7 @@
 		318B1CF62A8D68280075FA3D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				31EDAFF02ADD8DC40083DE70 /* Combine.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -599,6 +606,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				319759C42ADD819000669F1E /* ComposableViewController.swift in Sources */,
 				317DA25F2AD8781E00C15640 /* RemoteFeature.swift in Sources */,
 				317DA2612AD8794900C15640 /* RemoteNetworking.swift in Sources */,
 			);

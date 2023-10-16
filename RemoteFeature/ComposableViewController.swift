@@ -59,8 +59,8 @@ final class RemoteFeatureViewController: ComposableViewController<RemoteFeature>
     super.viewIsAppearing(animated)
 
     observe(
-      store.publisher.currentMileage.sink { self.currentMileageLabel.text = $0 },
-      store.publisher.currentTemperature.sink { self.currentTemperatureLabel.text = $0 },
+      store.publisher.currentMileage.map(Optional.some).assign(to: \.text, on: currentMileageLabel),
+      store.publisher.currentTemperature.map(Optional.some).assign(to: \.text, on: currentTemperatureLabel),
       store.publisher.isCharging
         .map { $0 ? "Currently charging!" : "Not charging!" }
         .assign(to: \.text, on: isChargingLabel),

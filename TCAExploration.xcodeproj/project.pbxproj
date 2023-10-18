@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3112A9252AE021B300A2CE63 /* ComposableNavigation in Frameworks */ = {isa = PBXBuildFile; productRef = 3112A9242AE021B300A2CE63 /* ComposableNavigation */; };
 		3116197A2A91D5BE002090BF /* ItemListFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311619792A91D5BE002090BF /* ItemListFeature.swift */; };
 		311619832A91DE58002090BF /* ItemListFeatureTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 311619812A91DE48002090BF /* ItemListFeatureTests.swift */; };
 		31329E962A97B22700A3BE69 /* Logger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 31329E942A97AEF000A3BE69 /* Logger.swift */; };
@@ -151,6 +152,7 @@
 				31EDAFF12ADD8DC40083DE70 /* Combine.framework in Frameworks */,
 				317DA2682AD8948D00C15640 /* Dependencies in Frameworks */,
 				31CDB4772AD9BEFF008001ED /* Clocks in Frameworks */,
+				3112A9252AE021B300A2CE63 /* ComposableNavigation in Frameworks */,
 				317DA2662AD8948800C15640 /* ComposableArchitecture in Frameworks */,
 				317DA2642AD892BE00C15640 /* Algorithms in Frameworks */,
 			);
@@ -361,6 +363,7 @@
 				317DA2652AD8948800C15640 /* ComposableArchitecture */,
 				317DA2672AD8948D00C15640 /* Dependencies */,
 				31CDB4762AD9BEFF008001ED /* Clocks */,
+				3112A9242AE021B300A2CE63 /* ComposableNavigation */,
 			);
 			productName = RemoteFeature;
 			productReference = 317DA2432AD877C400C15640 /* RemoteFeature.framework */;
@@ -494,7 +497,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1510;
 				TargetAttributes = {
 					317DA2422AD877C400C15640 = {
 						CreatedOnToolsVersion = 15.0.1;
@@ -539,6 +542,7 @@
 				3133EAEB2AB4CDA400A585C6 /* XCRemoteSwiftPackageReference "swiftui-navigation" */,
 				317DA2622AD892BE00C15640 /* XCRemoteSwiftPackageReference "swift-algorithms" */,
 				31CDB4752AD9BEFF008001ED /* XCRemoteSwiftPackageReference "swift-clocks" */,
+				3112A9232AE021B300A2CE63 /* XCRemoteSwiftPackageReference "swift-composable-navigation" */,
 			);
 			productRefGroup = 318B1CA32A8D27F20075FA3D /* Products */;
 			projectDirPath = "";
@@ -698,8 +702,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = C5J7NDXXBU;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -740,8 +746,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = C5J7NDXXBU;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -783,6 +791,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
@@ -804,6 +813,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
@@ -853,6 +863,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_CODE_COVERAGE = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -916,6 +927,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_CODE_COVERAGE = NO;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -946,6 +958,7 @@
 				CODE_SIGN_ENTITLEMENTS = TCAExploration/TCAExploration.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"TCAExploration/Preview Content\"";
 				DEVELOPMENT_TEAM = C5J7NDXXBU;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -985,6 +998,7 @@
 				CODE_SIGN_ENTITLEMENTS = TCAExploration/TCAExploration.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"TCAExploration/Preview Content\"";
 				DEVELOPMENT_TEAM = C5J7NDXXBU;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1022,6 +1036,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = C5J7NDXXBU;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -1045,6 +1060,7 @@
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = C5J7NDXXBU;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -1065,8 +1081,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = C5J7NDXXBU;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1107,8 +1125,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_IDENTITY = "";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = C5J7NDXXBU;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1150,6 +1170,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = C5J7NDXXBU;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -1171,6 +1192,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = C5J7NDXXBU;
 				GENERATE_INFOPLIST_FILE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
@@ -1255,6 +1277,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		3112A9232AE021B300A2CE63 /* XCRemoteSwiftPackageReference "swift-composable-navigation" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/heinzl/swift-composable-navigation.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 4.0.0;
+			};
+		};
 		311619762A91CFF3002090BF /* XCRemoteSwiftPackageReference "xctest-dynamic-overlay" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/pointfreeco/xctest-dynamic-overlay";
@@ -1330,6 +1360,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		3112A9242AE021B300A2CE63 /* ComposableNavigation */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 3112A9232AE021B300A2CE63 /* XCRemoteSwiftPackageReference "swift-composable-navigation" */;
+			productName = ComposableNavigation;
+		};
 		31329E972A97B9CF00A3BE69 /* CasePaths */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 318B1CF92A8D70340075FA3D /* XCRemoteSwiftPackageReference "swift-case-paths" */;

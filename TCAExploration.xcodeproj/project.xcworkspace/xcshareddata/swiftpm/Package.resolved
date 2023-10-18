@@ -55,6 +55,15 @@
       }
     },
     {
+      "identity" : "swift-composable-navigation",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/heinzl/swift-composable-navigation.git",
+      "state" : {
+        "revision" : "db6ea646e53e0d83fc306035557a510a9cc2a573",
+        "version" : "4.0.0"
+      }
+    },
+    {
       "identity" : "swift-concurrency-extras",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/pointfreeco/swift-concurrency-extras",

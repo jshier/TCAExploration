@@ -3,8 +3,12 @@ import ComposableArchitecture
 import UIKit
 
 class ComposableViewController<Reducer>: UIViewController where Reducer: ComposableArchitecture.Reducer {
-  let store: StoreOf<Reducer>
-  var cancellables: Set<AnyCancellable> = []
+  private let store: StoreOf<Reducer>
+  private var cancellables: Set<AnyCancellable> = []
+
+  var publisher: StorePublisher<Reducer.State> {
+    store.publisher
+  }
 
   init(store: StoreOf<Reducer>) {
     self.store = store
@@ -16,6 +20,10 @@ class ComposableViewController<Reducer>: UIViewController where Reducer: Composa
     for observation in observations {
       observation.store(in: &cancellables)
     }
+  }
+
+  func send(_ action: Reducer.Action) {
+    store.send(action)
   }
 
   @available(*, unavailable)
@@ -52,23 +60,22 @@ final class RemoteFeatureViewController: ComposableViewController<RemoteFeature>
     ])
     stack.translatesAutoresizingMaskIntoConstraints = false
 
-    toggleListeningButton.addAction(.init { _ in self.store.send(.toggleListeningButtonTapped) }, for: .touchUpInside)
+    toggleListeningButton.addAction(.init { _ in self.send(.toggleListeningButtonTapped) }, for: .touchUpInside)
   }
 
   override func viewIsAppearing(_ animated: Bool) {
     super.viewIsAppearing(animated)
 
     observe(
-      store.publisher.currentMileage.map(Optional.some).assign(to: \.text, on: currentMileageLabel),
-      store.publisher.currentTemperature.map(Optional.some).assign(to: \.text, on: currentTemperatureLabel),
-      store.publisher.isCharging
-        .map { $0 ? "Currently charging!" : "Not charging!" }
+      publisher.currentMileage.map(Optional.some).assign(to: \.text, on: currentMileageLabel),
+      publisher.currentTemperature.map(Optional.some).assign(to: \.text, on: currentTemperatureLabel),
+      publisher.chargingSummary
+        .map(Optional.some)
         .assign(to: \.text, on: isChargingLabel),
-      store.publisher.isCommandInProgress
-        .map { $0 ? "Command in flight" : "Command idle" }
+      publisher.commandSummary
+        .map(Optional.some)
         .assign(to: \.text, on: isCommandInProgressLabel),
-      store.publisher.isListening
-        .map { $0 ? "Stop Listening" : "Start Listening" }
+      publisher.toggleListeningButtonTitle
         .sink { self.toggleListeningButton.setTitle($0, for: .normal) }
     )
   }
@@ -78,8 +85,8 @@ final class RemoteFeatureViewController: ComposableViewController<RemoteFeature>
   RemoteFeatureViewController(store:
     StoreOf<RemoteFeature>(initialState: RemoteFeature.State(currentTemperature: "Loading...",
                                                              currentMileage: "Loading...",
-                                                             isCommandInProgress: false,
-                                                             isCharging: false)) {
+                                                             commandSummary: "Loading...",
+                                                             chargingSummary: "Loading...")) {
       RemoteFeature()._printChanges()
     } withDependencies: { dependencies in
       dependencies.remoteNetworking = RemoteNetworking {

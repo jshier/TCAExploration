@@ -5,15 +5,19 @@ public struct RemoteFeature: Reducer {
   public struct State: Equatable, Sendable {
     var currentTemperature: String
     var currentMileage: String
-    var isCommandInProgress: Bool
-    var isCharging: Bool
+    var commandSummary: String
+    var chargingSummary: String
     var isListening: Bool
 
-    public init(currentTemperature: String, currentMileage: String, isCommandInProgress: Bool, isCharging: Bool) {
+    var toggleListeningButtonTitle: String {
+      isListening ? "Stop Listening" : "Start Listening"
+    }
+
+    public init(currentTemperature: String, currentMileage: String, commandSummary: String, chargingSummary: String) {
       self.currentTemperature = currentTemperature
       self.currentMileage = currentMileage
-      self.isCommandInProgress = isCommandInProgress
-      self.isCharging = isCharging
+      self.commandSummary = commandSummary
+      self.chargingSummary = chargingSummary
       isListening = false
     }
   }
@@ -47,7 +51,7 @@ public struct RemoteFeature: Reducer {
 
         return .none
       case let .receiveElectricStatus(status):
-        state.isCharging = status.plugin == .pluggedIn(isCharging: true)
+        state.chargingSummary = status.plugin == .pluggedIn(isCharging: true) ? "Currently charging!" : "Not charging!"
 
         return .none
       case let .receiveHVACSettings(settings):
@@ -55,7 +59,7 @@ public struct RemoteFeature: Reducer {
 
         return .none
       case let .receiveCommandStatus(status):
-        state.isCommandInProgress = status == .inFlight
+        state.commandSummary = status == .inFlight ? "Command in flight" : "Command idle"
 
         return .none
       case .toggleListeningButtonTapped:
@@ -113,9 +117,9 @@ public struct RemoteScreen: View {
       VStack {
         Text(viewStore.currentMileage)
         Text(viewStore.currentTemperature)
-        Text(viewStore.isCharging ? "Currently charging!" : "Not charging!")
-        Text(viewStore.isCommandInProgress ? "Command in flight" : "Command idle")
-        Button(viewStore.isListening ? "Stop Listening" : "Start Listening") {
+        Text(viewStore.chargingSummary)
+        Text(viewStore.commandSummary)
+        Button(viewStore.toggleListeningButtonTitle) {
           viewStore.send(.toggleListeningButtonTapped)
         }
       }
@@ -133,8 +137,8 @@ public struct RemoteScreen: View {
 #Preview {
   RemoteScreen(store: StoreOf<RemoteFeature>.init(initialState: RemoteFeature.State(currentTemperature: "Loading...",
                                                                                     currentMileage: "Loading...",
-                                                                                    isCommandInProgress: false,
-                                                                                    isCharging: false)) {
+                                                                                    commandSummary: "Loading...",
+                                                                                    chargingSummary: "Loading...")) {
       RemoteFeature()._printChanges()
     } withDependencies: { dependencies in
       dependencies.remoteNetworking = RemoteNetworking {

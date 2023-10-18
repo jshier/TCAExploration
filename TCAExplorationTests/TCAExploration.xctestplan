@@ -29,7 +29,14 @@
       "target" : {
         "containerPath" : "container:TCAExploration.xcodeproj",
         "identifier" : "318B1CDE2A8D67E60075FA3D",
-        "name" : "FirstFeatureTests"
+        "name" : "NavigationFeatureTests"
+      }
+    },
+    {
+      "target" : {
+        "containerPath" : "container:TCAExploration.xcodeproj",
+        "identifier" : "317DA2492AD877C400C15640",
+        "name" : "RemoteFeatureTests"
       }
     }
   ],

@@ -29,7 +29,6 @@ public struct ItemListFeature: Reducer, Sendable {
         return .none
       case let .addItem(.presented(.delegate(.addItem(item)))):
         state.items.append(item)
-        state.addItem = nil
 
         return .none
       case .addItem:

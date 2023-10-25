@@ -40,6 +40,8 @@ public struct NewItemFeature: Reducer {
     case title, description
   }
 
+  @Dependency(\.dismiss) var dismiss
+
   public var body: some ReducerOf<Self> {
     BindingReducer()
 
@@ -48,7 +50,10 @@ public struct NewItemFeature: Reducer {
       case .addButtonTapped:
         guard let item = state.newItem else { return .none }
 
-        return .send(.delegate(.addItem(item)))
+        return .run { [dismiss] send in
+          await send(.delegate(.addItem(item)))
+          await dismiss()
+        }
       case .binding:
         return .none
       case .bodyTapped:

@@ -7,17 +7,24 @@
 
 import ComposableArchitecture
 import NavigationFeature
+import RemoteFeature
 import SwiftUI
 
 struct RootFeature: Reducer {
   struct State: Equatable {
     @BindingState var currentTab: Tab
     var navigationFeature: NavigationFeature.State
+    var remoteFeature: RemoteFeature.State
 
-    init(currentTab: Tab = .navigation, navigationFeature: NavigationFeature.State = .init()) {
+    init(
+      currentTab: Tab = .navigation,
+      navigationFeature: NavigationFeature.State = .init(),
+      remoteFeature: RemoteFeature.State = .init()
+    ) {
       @Dependency(\.defaults) var defaults
       self.currentTab = defaults.selectedRootTab ?? currentTab
       self.navigationFeature = navigationFeature
+      self.remoteFeature = remoteFeature
     }
   }
 
@@ -26,6 +33,7 @@ struct RootFeature: Reducer {
     case goToNavigationTabButtonTapped
     case goToNewItemButtonTapped
     case navigationFeature(NavigationFeature.Action)
+    case remoteFeature(RemoteFeature.Action)
     case saveCurrentTab(Tab)
   }
 
@@ -34,6 +42,7 @@ struct RootFeature: Reducer {
   }
 
   @Dependency(\.defaults) var defaults
+  @Dependency(\.logger) var logger
 
   var body: some ReducerOf<Self> {
     BindingReducer()
@@ -42,9 +51,15 @@ struct RootFeature: Reducer {
       NavigationFeature()
     }
 
+    Scope(state: \.remoteFeature, action: /RootFeature.Action.remoteFeature) {
+      RemoteFeature()
+    }
+
     Reduce { state, action in
       switch action {
       case .navigationFeature:
+        return .none
+      case .remoteFeature:
         return .none
       case .binding:
         return .none
@@ -54,11 +69,18 @@ struct RootFeature: Reducer {
         return .none
       case .goToNewItemButtonTapped:
         state.currentTab = .navigation
-        state.navigationFeature = NavigationFeature.State(path: StackState([
-          NavigationFeature.Path.State.itemList(
-            .init(addItem: .init(focus: .description))
-          )
-        ]))
+
+        if let id = state.navigationFeature.path.ids.first,
+           var itemsListState = state.navigationFeature.path[id: id, case: /NavigationFeature.Path.State.itemList] {
+          itemsListState.addItem = .init(focus: .description)
+          state.navigationFeature.path[id: id, case: /NavigationFeature.Path.State.itemList] = itemsListState
+        } else {
+          state.navigationFeature = NavigationFeature.State(path: StackState([
+            NavigationFeature.Path.State.itemList(
+              .init(addItem: .init(focus: .description))
+            )
+          ]))
+        }
 
         return .none
       case let .saveCurrentTab(tab):
@@ -106,7 +128,7 @@ struct RootView: View {
         .tabItem { Text("Second") }
         .tag(RootFeature.Tab.second)
 
-        Text("Remote Tab")
+        RemoteScreen(store: store.scope(state: \.remoteFeature, action: RootFeature.Action.remoteFeature))
           .tabItem {
             Label(
               title: { Text("Remote") },

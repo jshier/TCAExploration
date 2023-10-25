@@ -3,8 +3,8 @@ import SwiftUI
 
 public struct ItemListFeature: Reducer, Sendable {
   public struct State: Equatable, Sendable {
-    var items: [Item]
-    @PresentationState var addItem: NewItemFeature.State?
+    public var items: [Item]
+    @PresentationState public var addItem: NewItemFeature.State?
 
     public init(items: [Item] = [], addItem: NewItemFeature.State? = nil) {
       self.items = items

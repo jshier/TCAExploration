@@ -83,21 +83,8 @@ final class RemoteFeatureViewController: ComposableViewController<RemoteFeature>
 
 #Preview {
   RemoteFeatureViewController(store:
-    StoreOf<RemoteFeature>(initialState: RemoteFeature.State(currentTemperature: "Loading...",
-                                                             currentMileage: "Loading...",
-                                                             commandSummary: "Loading...",
-                                                             chargingSummary: "Loading...")) {
+    StoreOf<RemoteFeature>(initialState: RemoteFeature.State()) {
       RemoteFeature()._printChanges()
-    } withDependencies: { dependencies in
-      dependencies.remoteNetworking = RemoteNetworking {
-        AsyncStream(events: .value(.none), .delay(.seconds(1)), .value(.inFlight), .delay(.seconds(1)))
-      } vehicleStatus: {
-        AsyncStream(events: .value(.init(doors: .open, windows: .closed, odometer: 1234)), .delay(.seconds(1)))
-      } electricStatus: {
-        AsyncStream(events: .value(.init(plugin: .unplugged)), .delay(.seconds(1)))
-      } hvacSettings: {
-        AsyncStream(events: .value(.init(temperature: 72, isDefrostOn: false)), .delay(.seconds(1)))
-      }
     }
   )
 }

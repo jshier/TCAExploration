@@ -24,32 +24,33 @@ public enum CommandStatus: Equatable, Sendable {
   case none, inFlight
 }
 
-struct RemoteNetworking: Sendable {
+public struct RemoteNetworking: Sendable {
   var commandStatus: @Sendable () -> AsyncStream<CommandStatus>
   var vehicleStatus: @Sendable () -> AsyncStream<VehicleStatus>
   var electricStatus: @Sendable () -> AsyncStream<ElectricalVehicleStatus>
   var hvacSettings: @Sendable () -> AsyncStream<HVACSettings>
 }
 
-private enum RemoteNetworkingKey: DependencyKey {
-  @Dependency(\.continuousClock) private static var continuousClock
-
-  static var liveValue = RemoteNetworking {
-    AsyncStream { _ in
-    }
-  } vehicleStatus: {
-    AsyncStream { _ in
-    }
-  } electricStatus: {
-    AsyncStream { _ in
-    }
-  } hvacSettings: {
-    AsyncStream { _ in
+extension RemoteNetworking {
+  static var infiniteSequence: RemoteNetworking {
+    RemoteNetworking {
+      AsyncStream(events: .value(.none), .delay(.seconds(1)), .value(.inFlight), .delay(.seconds(1)))
+    } vehicleStatus: {
+      AsyncStream(events: .value(.init(doors: .open, windows: .closed, odometer: 1234)), .delay(.seconds(1)))
+    } electricStatus: {
+      AsyncStream(events: .value(.init(plugin: .unplugged)), .delay(.seconds(1)))
+    } hvacSettings: {
+      AsyncStream(events: .value(.init(temperature: 72, isDefrostOn: false)), .delay(.seconds(1)))
     }
   }
 }
 
-extension DependencyValues {
+private enum RemoteNetworkingKey: DependencyKey {
+  static var liveValue: RemoteNetworking = .infiniteSequence
+  static var previewValue: RemoteNetworking = .infiniteSequence
+}
+
+public extension DependencyValues {
   var remoteNetworking: RemoteNetworking {
     get { self[RemoteNetworkingKey.self] }
     set { self[RemoteNetworkingKey.self] = newValue }

@@ -8,24 +8,12 @@ final class RemoteFeatureTests: XCTestCase {
   func testThatListenToggleStartsEffects() async throws {
     // Given
     let clock = TestClock()
-    let store = TestStore(initialState: RemoteFeature.State(currentTemperature: "Loading...",
-                                                            currentMileage: "Loading...",
-                                                            commandSummary: "Loading...",
-                                                            chargingSummary: "Loading...")) {
+    let store = TestStore(initialState: RemoteFeature.State()) {
       RemoteFeature()
     } withDependencies: { dependencies in
-      dependencies.remoteNetworking = RemoteNetworking {
-        AsyncStream(events: .value(.none), .delay(.seconds(1)), .value(.inFlight), .delay(.seconds(1)))
-      } vehicleStatus: {
-        AsyncStream(events: .value(.init(doors: .open, windows: .closed, odometer: 1234)), .delay(.seconds(1)))
-      } electricStatus: {
-        AsyncStream(events: .value(.init(plugin: .unplugged)), .delay(.seconds(1)))
-      } hvacSettings: {
-        AsyncStream(events: .value(.init(temperature: 72, isDefrostOn: false)), .delay(.seconds(1)))
-      }
+      dependencies.remoteNetworking = .infiniteSequence
       dependencies.continuousClock = clock
     }
-    store.useMainSerialExecutor = true
 
     // When: the user taps the toggle button.
     await store.send(.toggleListeningButtonTapped) {
@@ -75,8 +63,17 @@ final class RemoteFeatureTests: XCTestCase {
       // As a computed property we must assert manually.
       XCTAssertEqual($0.toggleListeningButtonTitle, "Start Listening")
     }
+  }
 
-    // Then: store has finished processing all effects.
-    await store.finish()
+  func testThatListeningIsFalseAfterOnDisappear() async throws {
+    // Given
+    let store = TestStore(initialState: RemoteFeature.State(isListening: true)) {
+      RemoteFeature()
+    }
+
+    // When: onDisappear called, no state change should happen because isListening defaults to false.
+    await store.send(.onDisappear) {
+      $0.isListening = false
+    }
   }
 }

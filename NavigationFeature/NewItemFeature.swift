@@ -81,9 +81,6 @@ struct NewItemView: View {
         .disabled(!viewStore.isValid)
 
         Spacer()
-          .gesture(TapGesture().onEnded {
-            viewStore.send(.bodyTapped)
-          })
       }
       .padding()
       .bind(viewStore.$focus, to: $focus)

@@ -26,12 +26,40 @@ final class TCAExplorationTests: XCTestCase {
     await store.send(.goToNewItemButtonTapped) { state in
       // Navigates to the Navigation tab.
       state.currentTab = .navigation
-      // Sets the navigation state to the addItem screen with .title focused.
+      // Sets the navigation state to the addItem screen with .description focused.
       state.navigationFeature = NavigationFeature.State(path: StackState([
         NavigationFeature.Path.State.itemList(
           .init(addItem: .init(focus: .description))
         )
       ]))
+    }
+    // Then: store saves the current tab to Defaults.
+    await store.receive(.saveCurrentTab(.navigation))
+
+    XCTAssertEqual(defaults.selectedRootTab, .navigation)
+  }
+
+  func testGoToNewItemButtonPreservesExistingList() async throws {
+    // Given
+    let defaults = Defaults.inMemory(selectedTab: .second)
+    let store = TestStore(initialState:
+      .init(currentTab: .second, navigationFeature: NavigationFeature.State(path: StackState([
+        NavigationFeature.Path.State.itemList(
+          .init(items: [.init(id: UUID(0), title: "", description: "")])
+        )
+      ])))
+    ) {
+      RootFeature()
+    } withDependencies: { dependencies in
+      dependencies.defaults = defaults
+    }
+
+    // When: user taps the Go To New Item button.
+    await store.send(.goToNewItemButtonTapped) { state in
+      // Navigates to the Navigation tab.
+      state.currentTab = .navigation
+      // Sets the navigation state to the addItem screen with .description focused while keeping existing list intact.
+      state.navigationFeature.path[id: 0, case: /NavigationFeature.Path.State.itemList]?.addItem = .init(focus: .description)
     }
     // Then: store saves the current tab to Defaults.
     await store.receive(.saveCurrentTab(.navigation))

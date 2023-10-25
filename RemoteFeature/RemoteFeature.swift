@@ -13,12 +13,18 @@ public struct RemoteFeature: Reducer {
       isListening ? "Stop Listening" : "Start Listening"
     }
 
-    public init(currentTemperature: String, currentMileage: String, commandSummary: String, chargingSummary: String) {
+    public init(
+      currentTemperature: String = "Loading...",
+      currentMileage: String = "Loading...",
+      commandSummary: String = "Loading...",
+      chargingSummary: String = "Loading...",
+      isListening: Bool = false
+    ) {
       self.currentTemperature = currentTemperature
       self.currentMileage = currentMileage
       self.commandSummary = commandSummary
       self.chargingSummary = chargingSummary
-      isListening = false
+      self.isListening = isListening
     }
   }
 
@@ -36,6 +42,8 @@ public struct RemoteFeature: Reducer {
     case statusListeners
   }
 
+  public init() {}
+
   @Dependency(\.remoteNetworking) var remoteNetworking
 
   public var body: some ReducerOf<Self> {
@@ -45,6 +53,8 @@ public struct RemoteFeature: Reducer {
         // Or start listenerEffect.
         return .none
       case .onDisappear:
+        state.isListening = false
+
         return .cancel(id: CancellableAction.statusListeners)
       case let .receiveVehicleStatus(status):
         state.currentMileage = "\(status.odometer) mi"
@@ -135,22 +145,9 @@ public struct RemoteScreen: View {
 }
 
 #Preview {
-  RemoteScreen(store: StoreOf<RemoteFeature>.init(initialState: RemoteFeature.State(currentTemperature: "Loading...",
-                                                                                    currentMileage: "Loading...",
-                                                                                    commandSummary: "Loading...",
-                                                                                    chargingSummary: "Loading...")) {
-      RemoteFeature()._printChanges()
-    } withDependencies: { dependencies in
-      dependencies.remoteNetworking = RemoteNetworking {
-        AsyncStream(events: .value(.none), .delay(.seconds(1)), .value(.inFlight), .delay(.seconds(1)))
-      } vehicleStatus: {
-        AsyncStream(events: .value(.init(doors: .open, windows: .closed, odometer: 1234)), .delay(.seconds(1)))
-      } electricStatus: {
-        AsyncStream(events: .value(.init(plugin: .unplugged)), .delay(.seconds(1)))
-      } hvacSettings: {
-        AsyncStream(events: .value(.init(temperature: 72, isDefrostOn: false)), .delay(.seconds(1)))
-      }
-    }
+  RemoteScreen(store: StoreOf<RemoteFeature>(initialState: RemoteFeature.State()) {
+    RemoteFeature()._printChanges()
+  }
   )
 }
 

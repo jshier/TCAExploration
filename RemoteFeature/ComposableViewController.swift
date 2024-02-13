@@ -3,12 +3,7 @@ import ComposableArchitecture
 import UIKit
 
 class ComposableViewController<Reducer>: UIViewController where Reducer: ComposableArchitecture.Reducer {
-  private let store: StoreOf<Reducer>
-  private var cancellables: Set<AnyCancellable> = []
-
-  var publisher: StorePublisher<Reducer.State> {
-    store.publisher
-  }
+  let store: StoreOf<Reducer>
 
   init(store: StoreOf<Reducer>) {
     self.store = store
@@ -16,15 +11,18 @@ class ComposableViewController<Reducer>: UIViewController where Reducer: Composa
     super.init(nibName: nil, bundle: nil)
   }
 
-  func observe(_ observations: AnyCancellable...) {
-    for observation in observations {
-      observation.store(in: &cancellables)
+  override func viewIsAppearing(_ animated: Bool) {
+    super.viewIsAppearing(animated)
+
+    observe { [weak self] in
+      guard let self else { return }
+
+      onStateUpdate()
     }
   }
 
-  func send(_ action: Reducer.Action) {
-    store.send(action)
-  }
+  /// Override with actions to be performed when `Store` state updates.
+  func onStateUpdate() {}
 
   @available(*, unavailable)
   required init?(coder: NSCoder) {
@@ -60,25 +58,16 @@ final class RemoteFeatureViewController: ComposableViewController<RemoteControlF
       stack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
     ])
 
-    toggleListeningButton.addAction(.init { [unowned self] _ in send(.toggleListeningButtonTapped) },
+    toggleListeningButton.addAction(.init { [unowned self] _ in store.send(.toggleListeningButtonTapped) },
                                     for: .touchUpInside)
   }
 
-  override func viewIsAppearing(_ animated: Bool) {
-    super.viewIsAppearing(animated)
-
-    observe(
-      publisher.currentMileage.map(Optional.some).assign(to: \.text, on: currentMileageLabel),
-      publisher.currentTemperature.map(Optional.some).assign(to: \.text, on: currentTemperatureLabel),
-      publisher.chargingSummary
-        .map(Optional.some)
-        .assign(to: \.text, on: isChargingLabel),
-      publisher.commandSummary
-        .map(Optional.some)
-        .assign(to: \.text, on: isCommandInProgressLabel),
-      publisher.toggleListeningButtonTitle
-        .sink { self.toggleListeningButton.setTitle($0, for: .normal) }
-    )
+  override func onStateUpdate() {
+    currentMileageLabel.text = store.currentMileage
+    currentTemperatureLabel.text = store.currentTemperature
+    isChargingLabel.text = store.chargingSummary
+    isCommandInProgressLabel.text = store.commandSummary
+    toggleListeningButton.setTitle(store.toggleListeningButtonTitle, for: .normal)
   }
 }
 

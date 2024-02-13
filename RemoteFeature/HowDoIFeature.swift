@@ -8,14 +8,14 @@ struct HowDoIFeature<ID> where ID: FlowID {
     let flow: Flow<ID>
     var steps = StackState<HowDoIStepFeature<ID>.State>()
   }
-  
+
   enum Action {
     case actionTapped(Flow<ID>.Step.Action)
     case steps(StackAction<HowDoIStepFeature<ID>.State, HowDoIStepFeature<ID>.Action>)
   }
-  
+
   @Dependency(\.dismiss) var dismiss
-  
+
   var body: some ReducerOf<Self> {
     Reduce { state, action in
       switch action {
@@ -25,12 +25,12 @@ struct HowDoIFeature<ID> where ID: FlowID {
           _ = state.steps.popLast()
         case let .pushTo(id):
           state.steps.append(.init(step: state.flow[id]))
-          
+
           return .none
         case .done:
           return .run { _ in await dismiss() }
         }
-        
+
         return .none
       // Any other step actions.
       case .steps:
@@ -74,7 +74,7 @@ struct Flow<ID> where ID: FlowID {
       let title: String
       let kind: Kind
     }
-    
+
     struct Init {
       let title: String
       let actions: [Action]
@@ -84,21 +84,21 @@ struct Flow<ID> where ID: FlowID {
     let title: String
     let actions: [Action]
   }
-  
+
   let start: Start
   let steps: [ID: Step]
-  
+
   subscript(_ id: ID) -> Step {
     steps[id]!
   }
-  
+
   init(start: Start, steps: [ID: Step.Init]) {
     self.start = start
     self.steps = ID.allCases.reduce(into: [:]) { partialResult, id in
       guard let initState = steps[id] else { fatalError("All IDs must have corresponding Init value.") }
 
       let step = Step(id: id, title: initState.title, actions: initState.actions)
-      
+
       partialResult[id] = step
     }
   }
@@ -128,7 +128,7 @@ extension TestFlow {
 
 struct HowDoIFlowView<ID>: View where ID: FlowID {
   @Perception.Bindable var store: StoreOf<HowDoIFeature<ID>>
-  
+
   var body: some View {
     NavigationStack(path: $store.scope(state: \.steps, action: \.steps)) {
       HowDoIStartView<ID>(store: store)
@@ -141,7 +141,7 @@ struct HowDoIFlowView<ID>: View where ID: FlowID {
 
 struct HowDoIStartView<ID>: View where ID: FlowID {
   let store: StoreOf<HowDoIFeature<ID>>
-  
+
   var body: some View {
     WithPerceptionTracking {
       VStack {
@@ -161,15 +161,15 @@ struct HowDoIStepView<ID>: View where ID: FlowID {
   struct ViewState: Equatable {
     let title: String
     let actions: [Flow<ID>.Step.Action]
-    
+
     init(_ state: HowDoIStepFeature<ID>.State) {
       title = state.step.title
       actions = state.step.actions
     }
   }
-  
+
   let store: StoreOf<HowDoIStepFeature<ID>>
-  
+
   var body: some View {
     WithPerceptionTracking {
       VStack {

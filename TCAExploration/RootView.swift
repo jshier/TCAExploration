@@ -98,14 +98,13 @@ struct RootFeature: Reducer {
 }
 
 struct RootView: View {
-
   @Perception.Bindable var store: StoreOf<RootFeature>
 
   var body: some View {
     WithPerceptionTracking {
       TabView(selection: $store.currentTab) {
         NavigationView(store: store.scope(state: \.navigationFeature, action: \.navigationFeature))
-          .tabItem { 
+          .tabItem {
             Label(title: { Text("Navigation") },
                   icon: { Image(systemName: "square.on.square.intersection.dashed") })
           }

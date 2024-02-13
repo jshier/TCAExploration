@@ -48,10 +48,10 @@ extension RemoteNetworking {
 private enum RemoteNetworkingKey: DependencyKey {
   static let liveValue: RemoteNetworking = .infiniteSequence
   static let previewValue: RemoteNetworking = .infiniteSequence
-  static let testValue: RemoteNetworking = RemoteNetworking(commandStatus: { unimplemented() },
-                                                            vehicleStatus: { unimplemented() },
-                                                            electricStatus: { unimplemented() },
-                                                            hvacSettings: { unimplemented() })
+  static let testValue: RemoteNetworking = .init(commandStatus: { unimplemented() },
+                                                 vehicleStatus: { unimplemented() },
+                                                 electricStatus: { unimplemented() },
+                                                 hvacSettings: { unimplemented() })
 }
 
 public extension DependencyValues {

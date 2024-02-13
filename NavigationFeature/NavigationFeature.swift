@@ -31,7 +31,7 @@ public struct NavigationFeature: Reducer {
         return .none
       case .path(.element(_, action: .itemList(.backButtonTapped))):
         _ = state.path.popLast()
-        
+
         return .none
       case .path:
         print(action)

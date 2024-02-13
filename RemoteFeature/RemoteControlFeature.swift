@@ -1,7 +1,9 @@
 import ComposableArchitecture
 import SwiftUI
 
-public struct RemoteFeature: Reducer {
+@Reducer
+public struct RemoteControlFeature {
+  @ObservableState
   public struct State: Equatable, Sendable {
     var currentTemperature: String
     var currentMileage: String
@@ -38,7 +40,7 @@ public struct RemoteFeature: Reducer {
     case toggleListeningButtonTapped
   }
 
-  private enum CancellableAction {
+  private enum CancelID {
     case statusListeners
   }
 
@@ -55,7 +57,7 @@ public struct RemoteFeature: Reducer {
       case .onDisappear:
         state.isListening = false
 
-        return .cancel(id: CancellableAction.statusListeners)
+        return .cancel(id: CancelID.statusListeners)
       case let .receiveVehicleStatus(status):
         state.currentMileage = "\(status.odometer) mi"
 
@@ -76,7 +78,7 @@ public struct RemoteFeature: Reducer {
         defer { state.isListening.toggle() }
 
         if state.isListening {
-          return .cancel(id: CancellableAction.statusListeners)
+          return .cancel(id: CancelID.statusListeners)
         } else {
           return listenerEffect
         }
@@ -111,44 +113,43 @@ public struct RemoteFeature: Reducer {
 //        print("stopped waiting for command status")
       }
     )
-    .cancellable(id: CancellableAction.statusListeners, cancelInFlight: true)
+    .cancellable(id: CancelID.statusListeners, cancelInFlight: true)
   }
 }
 
 public struct RemoteScreen: View {
-  public let store: StoreOf<RemoteFeature>
+  public let store: StoreOf<RemoteControlFeature>
 
-  public init(store: StoreOf<RemoteFeature>) {
+  public init(store: StoreOf<RemoteControlFeature>) {
     self.store = store
   }
 
   public var body: some View {
-    WithViewStore(store, observe: { $0 }) { viewStore in
+    WithPerceptionTracking {
       VStack {
-        Text(viewStore.currentMileage)
-        Text(viewStore.currentTemperature)
-        Text(viewStore.chargingSummary)
-        Text(viewStore.commandSummary)
-        Button(viewStore.toggleListeningButtonTitle) {
-          viewStore.send(.toggleListeningButtonTapped)
+        Text(store.currentMileage)
+        Text(store.currentTemperature)
+        Text(store.chargingSummary)
+        Text(store.commandSummary)
+        Button(store.toggleListeningButtonTitle) {
+          store.send(.toggleListeningButtonTapped)
         }
       }
       .frame(maxWidth: .infinity, maxHeight: .infinity)
       .onAppear {
-        viewStore.send(.onAppear)
+        store.send(.onAppear)
       }
       .onDisappear {
-        viewStore.send(.onDisappear)
+        store.send(.onDisappear)
       }
     }
   }
 }
 
 #Preview {
-  RemoteScreen(store: StoreOf<RemoteFeature>(initialState: RemoteFeature.State()) {
-    RemoteFeature()._printChanges()
-  }
-  )
+  RemoteScreen(store: StoreOf<RemoteControlFeature>(initialState: RemoteControlFeature.State()) {
+    RemoteControlFeature()._printChanges()
+  })
 }
 
 import Algorithms

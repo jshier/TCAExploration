@@ -8,8 +8,8 @@ final class RemoteFeatureTests: XCTestCase {
   func testThatListenToggleStartsEffects() async throws {
     // Given
     let clock = TestClock()
-    let store = TestStore(initialState: RemoteFeature.State()) {
-      RemoteFeature()
+    let store = TestStore(initialState: RemoteControlFeature.State()) {
+      RemoteControlFeature()
     } withDependencies: { dependencies in
       dependencies.remoteNetworking = .infiniteSequence
       dependencies.continuousClock = clock
@@ -67,8 +67,8 @@ final class RemoteFeatureTests: XCTestCase {
 
   func testThatListeningIsFalseAfterOnDisappear() async throws {
     // Given
-    let store = TestStore(initialState: RemoteFeature.State(isListening: true)) {
-      RemoteFeature()
+    let store = TestStore(initialState: RemoteControlFeature.State(isListening: true)) {
+      RemoteControlFeature()
     }
 
     // When: onDisappear called, no state change should happen because isListening defaults to false.

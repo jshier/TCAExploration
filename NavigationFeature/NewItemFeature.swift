@@ -1,11 +1,13 @@
 import ComposableArchitecture
 import SwiftUI
 
-public struct NewItemFeature: Reducer {
+@Reducer
+public struct NewItemFeature {
+  @ObservableState
   public struct State: Equatable, Sendable {
-    @BindingState var title: String
-    @BindingState var description: String
-    @BindingState var focus: Field?
+    var title: String
+    var description: String
+    var focus: Field?
 
     var isValid: Bool { !title.isEmpty && !description.isEmpty }
     var newItem: Item? {
@@ -68,27 +70,27 @@ public struct NewItemFeature: Reducer {
 }
 
 struct NewItemView: View {
-  let store: StoreOf<NewItemFeature>
+  @Perception.Bindable var store: StoreOf<NewItemFeature>
 
   @FocusState private var focus: NewItemFeature.Field?
 
   var body: some View {
-    WithViewStore(store, observe: { $0 }) { viewStore in
+    WithPerceptionTracking {
       VStack {
-        TextField("Title", text: viewStore.$title)
+        TextField("Title", text: $store.title)
           .focused($focus, equals: .title)
-        TextField("Description", text: viewStore.$description)
+        TextField("Description", text: $store.description)
           .focused($focus, equals: .description)
 
         Button("Add") {
-          viewStore.send(.addButtonTapped)
+          store.send(.addButtonTapped)
         }
-        .disabled(!viewStore.isValid)
+        .disabled(!store.isValid)
 
         Spacer()
       }
       .padding()
-      .bind(viewStore.$focus, to: $focus)
+      .bind($store.focus, to: $focus)
     }
   }
 }

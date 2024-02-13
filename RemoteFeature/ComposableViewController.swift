@@ -32,7 +32,7 @@ class ComposableViewController<Reducer>: UIViewController where Reducer: Composa
   }
 }
 
-final class RemoteFeatureViewController: ComposableViewController<RemoteFeature> {
+final class RemoteFeatureViewController: ComposableViewController<RemoteControlFeature> {
   private lazy var currentMileageLabel: UILabel = .init(frame: .zero)
   private lazy var currentTemperatureLabel: UILabel = .init(frame: .zero)
   private lazy var isChargingLabel: UILabel = .init(frame: .zero)
@@ -53,14 +53,15 @@ final class RemoteFeatureViewController: ComposableViewController<RemoteFeature>
 
     view.addSubview(stack)
 
+    stack.translatesAutoresizingMaskIntoConstraints = false
     NSLayoutConstraint.activate([
       stack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
       stack.trailingAnchor.constraint(equalTo: view.trailingAnchor),
       stack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
     ])
-    stack.translatesAutoresizingMaskIntoConstraints = false
 
-    toggleListeningButton.addAction(.init { _ in self.send(.toggleListeningButtonTapped) }, for: .touchUpInside)
+    toggleListeningButton.addAction(.init { [unowned self] _ in send(.toggleListeningButtonTapped) },
+                                    for: .touchUpInside)
   }
 
   override func viewIsAppearing(_ animated: Bool) {
@@ -81,10 +82,11 @@ final class RemoteFeatureViewController: ComposableViewController<RemoteFeature>
   }
 }
 
+@available(iOS 17, *)
 #Preview {
   RemoteFeatureViewController(store:
-    StoreOf<RemoteFeature>(initialState: RemoteFeature.State()) {
-      RemoteFeature()._printChanges()
+    StoreOf<RemoteControlFeature>(initialState: RemoteControlFeature.State()) {
+      RemoteControlFeature()._printChanges()
     }
   )
 }

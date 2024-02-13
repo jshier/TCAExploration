@@ -10,16 +10,18 @@ import NavigationFeature
 import RemoteFeature
 import SwiftUI
 
+@Reducer
 struct RootFeature: Reducer {
+  @ObservableState
   struct State: Equatable {
-    @BindingState var currentTab: Tab
+    var currentTab: Tab
     var navigationFeature: NavigationFeature.State
-    var remoteFeature: RemoteFeature.State
+    var remoteFeature: RemoteControlFeature.State
 
     init(
       currentTab: Tab = .navigation,
       navigationFeature: NavigationFeature.State = .init(),
-      remoteFeature: RemoteFeature.State = .init()
+      remoteFeature: RemoteControlFeature.State = .init()
     ) {
       @Dependency(\.defaults) var defaults
       self.currentTab = defaults.selectedRootTab ?? currentTab
@@ -33,7 +35,7 @@ struct RootFeature: Reducer {
     case goToNavigationTabButtonTapped
     case goToNewItemButtonTapped
     case navigationFeature(NavigationFeature.Action)
-    case remoteFeature(RemoteFeature.Action)
+    case remoteFeature(RemoteControlFeature.Action)
     case saveCurrentTab(Tab)
   }
 
@@ -47,12 +49,12 @@ struct RootFeature: Reducer {
   var body: some ReducerOf<Self> {
     BindingReducer()
 
-    Scope(state: \.navigationFeature, action: /RootFeature.Action.navigationFeature) {
+    Scope(state: \.navigationFeature, action: \.navigationFeature) {
       NavigationFeature()
     }
 
-    Scope(state: \.remoteFeature, action: /RootFeature.Action.remoteFeature) {
-      RemoteFeature()
+    Scope(state: \.remoteFeature, action: \.remoteFeature) {
+      RemoteControlFeature()
     }
 
     Reduce { state, action in
@@ -71,9 +73,9 @@ struct RootFeature: Reducer {
         state.currentTab = .navigation
 
         if let id = state.navigationFeature.path.ids.first,
-           var itemsListState = state.navigationFeature.path[id: id, case: /NavigationFeature.Path.State.itemList] {
+           var itemsListState = state.navigationFeature.path[id: id, case: \.itemList] {
           itemsListState.addItem = .init(focus: .description)
-          state.navigationFeature.path[id: id, case: /NavigationFeature.Path.State.itemList] = itemsListState
+          state.navigationFeature.path[id: id, case: \.itemList] = itemsListState
         } else {
           state.navigationFeature = NavigationFeature.State(path: StackState([
             NavigationFeature.Path.State.itemList(
@@ -89,46 +91,39 @@ struct RootFeature: Reducer {
         return .none
       }
     }
-    .onChange(of: \.currentTab, removeDuplicates: ==) { _, newValue in
+    .onChange(of: \.currentTab) { _, newValue in
       .saveCurrentTab(newValue)
     }
   }
 }
 
 struct RootView: View {
-  struct ViewState: Equatable {
-    @BindingViewState var currentTab: RootFeature.Tab
 
-    init(_ store: BindingViewStore<RootFeature.State>) {
-      _currentTab = store.$currentTab
-    }
-  }
-
-  let store: StoreOf<RootFeature>
+  @Perception.Bindable var store: StoreOf<RootFeature>
 
   var body: some View {
-    WithViewStore(store, observe: ViewState.init) { viewStore in
-      TabView(selection: viewStore.$currentTab) {
-        NavigationView(store: store.scope(state: \.navigationFeature, action: RootFeature.Action.navigationFeature))
-          .tabItem { Label(
-            title: { Text("Navigation") },
-            icon: { Image(systemName: "square.on.square.intersection.dashed") }
-          ) }
+    WithPerceptionTracking {
+      TabView(selection: $store.currentTab) {
+        NavigationView(store: store.scope(state: \.navigationFeature, action: \.navigationFeature))
+          .tabItem { 
+            Label(title: { Text("Navigation") },
+                  icon: { Image(systemName: "square.on.square.intersection.dashed") })
+          }
           .tag(RootFeature.Tab.navigation)
 
         VStack {
           Text("Second Tab")
           Button("Go To Navigation Tab") {
-            viewStore.send(.goToNavigationTabButtonTapped)
+            store.send(.goToNavigationTabButtonTapped)
           }
           Button("Got To New Item") {
-            viewStore.send(.goToNewItemButtonTapped)
+            store.send(.goToNewItemButtonTapped)
           }
         }
         .tabItem { Text("Second") }
         .tag(RootFeature.Tab.second)
 
-        RemoteScreen(store: store.scope(state: \.remoteFeature, action: RootFeature.Action.remoteFeature))
+        RemoteScreen(store: store.scope(state: \.remoteFeature, action: \.remoteFeature))
           .tabItem {
             Label(
               title: { Text("Remote") },

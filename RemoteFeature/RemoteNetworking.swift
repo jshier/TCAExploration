@@ -46,8 +46,12 @@ extension RemoteNetworking {
 }
 
 private enum RemoteNetworkingKey: DependencyKey {
-  static var liveValue: RemoteNetworking = .infiniteSequence
-  static var previewValue: RemoteNetworking = .infiniteSequence
+  static let liveValue: RemoteNetworking = .infiniteSequence
+  static let previewValue: RemoteNetworking = .infiniteSequence
+  static let testValue: RemoteNetworking = RemoteNetworking(commandStatus: { unimplemented() },
+                                                            vehicleStatus: { unimplemented() },
+                                                            electricStatus: { unimplemented() },
+                                                            hvacSettings: { unimplemented() })
 }
 
 public extension DependencyValues {

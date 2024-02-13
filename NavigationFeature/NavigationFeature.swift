@@ -1,7 +1,9 @@
 import ComposableArchitecture
 import SwiftUI
 
+@Reducer
 public struct NavigationFeature: Reducer {
+  @ObservableState
   public struct State: Equatable {
     public var path = StackState<Path.State>()
 
@@ -10,7 +12,7 @@ public struct NavigationFeature: Reducer {
     }
   }
 
-  public enum Action: Equatable, Sendable {
+  public enum Action: Equatable {
     case itemListButtonTapped
     case path(StackAction<Path.State, Path.Action>)
     case poppedToRoot
@@ -27,7 +29,12 @@ public struct NavigationFeature: Reducer {
         state.path.append(.itemList(.init()))
 
         return .none
+      case .path(.element(_, action: .itemList(.backButtonTapped))):
+        _ = state.path.popLast()
+        
+        return .none
       case .path:
+        print(action)
         return .none
       case .poppedToRoot:
         logger.log("poppedToRoot")
@@ -35,40 +42,24 @@ public struct NavigationFeature: Reducer {
         return .none
       }
     }
-    .forEach(\.path, action: /Action.path) {
-      Path()
-    }
-    .onChange(of: \.path.isEmpty, removeDuplicates: ==) { _, isEmpty in
+    .forEach(\.path, action: \.path)
+    .onChange(of: \.path.isEmpty) { _, isEmpty in
       isEmpty ? .poppedToRoot : nil
     }
   }
 
-  // Root navigation path.
-  // Handles path state and reducer composition.
-  public struct Path: Reducer {
-    public enum State: Equatable, Sendable {
-      case itemList(ItemListFeature.State)
-    }
-
-    public enum Action: Equatable, Sendable {
-      case itemList(ItemListFeature.Action)
-    }
-
-    public var body: some ReducerOf<Self> {
-      Scope(state: /State.itemList, action: /Action.itemList) {
-        ItemListFeature()
-      }
-    }
+  @Reducer(state: .equatable, action: .equatable)
+  public enum Path {
+    case itemList(ItemListFeature)
   }
 }
 
 public extension Reducer {
-  func onChange<Value>(
+  func onChange<Value: Equatable>(
     of toValue: @escaping (State) -> Value,
-    removeDuplicates isDuplicate: @escaping (Value, Value) -> Bool,
     send: @escaping (_ oldValue: Value, _ newValue: Value) -> Action?
   ) -> some ReducerOf<Self> where Value: Equatable {
-    onChange(of: toValue, removeDuplicates: isDuplicate) { oldValue, newValue in
+    onChange(of: toValue) { oldValue, newValue in
       Reduce { _, _ in
         if let action = send(oldValue, newValue) {
           .send(action)
@@ -81,27 +72,29 @@ public extension Reducer {
 }
 
 public struct NavigationView: View {
-  public let store: StoreOf<NavigationFeature>
+  @Perception.Bindable
+  public private(set) var store: StoreOf<NavigationFeature>
 
   public init(store: StoreOf<NavigationFeature>) {
     self.store = store
   }
 
   public var body: some View {
-    NavigationStackStore(store.scope(state: \.path, action: { .path($0) })) {
-      VStack {
-        Button("Item List") {
-          store.send(.itemListButtonTapped)
+    WithPerceptionTracking {
+      NavigationStack(path: $store.scope(state: \.path, action: \.path)) {
+        VStack {
+          Button("Item List") {
+            store.send(.itemListButtonTapped)
+          }
         }
-      }
-      .navigationTitle("Navigation Features")
-    } destination: { state in
-      switch state {
-      case .itemList:
-        CaseLet(/NavigationFeature.Path.State.itemList,
-                action: NavigationFeature.Path.Action.itemList,
-                then: ItemList.init)
-          .navigationTitle("Item List")
+        .navigationTitle("Navigation Features")
+      } destination: { store in
+        WithPerceptionTracking {
+          switch store.case {
+          case let .itemList(store):
+            ItemList(store: store)
+          }
+        }
       }
     }
   }

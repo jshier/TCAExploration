@@ -1,10 +1,12 @@
 import ComposableArchitecture
 import SwiftUI
 
-public struct ItemListFeature: Reducer, Sendable {
+@Reducer
+public struct ItemListFeature: Sendable {
+  @ObservableState
   public struct State: Equatable, Sendable {
     public var items: [Item]
-    @PresentationState public var addItem: NewItemFeature.State?
+    @Presents public var addItem: NewItemFeature.State?
 
     public init(items: [Item] = [], addItem: NewItemFeature.State? = nil) {
       self.items = items
@@ -14,6 +16,7 @@ public struct ItemListFeature: Reducer, Sendable {
 
   public enum Action: Equatable, Sendable {
     case addButtonTapped
+    case backButtonTapped
     case doneButtonTapped
     case addItem(PresentationAction<NewItemFeature.Action>)
   }
@@ -33,13 +36,15 @@ public struct ItemListFeature: Reducer, Sendable {
         return .none
       case .addItem:
         return .none
+      case .backButtonTapped:
+        return .none
       case .doneButtonTapped:
         return .run { _ in
           await dismiss()
         }
       }
     }
-    .ifLet(\.$addItem, action: /Action.addItem) {
+    .ifLet(\.$addItem, action: \.addItem) {
       NewItemFeature()
     }
   }
@@ -55,26 +60,26 @@ struct ItemList: View {
     }
   }
 
-  let store: StoreOf<ItemListFeature>
+  @Perception.Bindable var store: StoreOf<ItemListFeature>
 
   var body: some View {
-    WithViewStore(store, observe: ViewState.init) { viewStore in
-      contentView(for: viewStore.items)
+    WithPerceptionTracking {
+      contentView(for: store.items)
         .navigationTitle("Items")
         .toolbar {
           ToolbarItem(placement: .topBarTrailing) {
             Button("Done") {
-              viewStore.send(.doneButtonTapped)
+              store.send(.doneButtonTapped)
             }
           }
 
           ToolbarItem(placement: .topBarTrailing) {
             Button("Add") {
-              viewStore.send(.addButtonTapped)
+              store.send(.addButtonTapped)
             }
           }
         }
-        .sheet(store: store.scope(state: \.$addItem, action: { .addItem($0) })) { store in
+        .sheet(item: $store.scope(state: \.addItem, action: \.addItem)) { store in
           NavigationStack {
             NewItemView(store: store)
               .navigationTitle("Add Item")
@@ -99,7 +104,12 @@ struct ItemList: View {
 
   @ViewBuilder
   var emptyView: some View {
-    Text("You have no items, tap Add to create one!")
+    VStack {
+      Text("You have no items, tap Add to create one!")
+      Button("Back") {
+        store.send(.backButtonTapped)
+      }
+    }
   }
 }
 
